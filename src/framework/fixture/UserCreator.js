@@ -1,14 +1,12 @@
 import { faker } from '@faker-js/faker';
-
-
 export default class UserCreator {
 
   constructor() {
-    this.userCounts = new Map();
+    //this.userCounts = new Map();
   }
 
-  async createUserDataSet(browserName) {
-    const firstName = faker.person.firstName('male');
+  async createUserDataSet() {
+    const firstName = faker.person.firstName();
     let user;
     const userPass = faker.internet.password();
     const lastName = faker.person.lastName();
@@ -23,12 +21,6 @@ export default class UserCreator {
     const zipCode = faker.location.zipCode('### ###');
     const phone = faker.phone.number('+7 9## ### ## ##');
 
-    if (!this.userCounts.has(browserName)) {
-      this.userCounts.set(browserName, 0);
-    }
-
-    const userId = this.userCounts.get(browserName) + 1;
-    this.userCounts.set(browserName, userId);
 
     user = {
       firstName,
@@ -42,10 +34,8 @@ export default class UserCreator {
       state,
       city,
       zipCode,
-      browserName,
-      userId,
+
     };
-    // console.log(user)
     return user;
   }
 }

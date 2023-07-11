@@ -1,5 +1,3 @@
-//import { user } from './LoginPage.js'
-
 export default class SignUpPage {
   static selectors = {
     accInfoBlock: 'div[class="login-form"]',
