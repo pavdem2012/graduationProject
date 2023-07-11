@@ -1,4 +1,3 @@
-
 export default class LoginPage {
   static selectors = {
     signUpForm: 'div[class="signup-form"]',
@@ -17,7 +16,6 @@ export default class LoginPage {
       await page.fill(LoginPage.selectors.nameField, userData.firstName)
       await page.fill(LoginPage.selectors.emailField, userData.email)
       await page.waitForLoadState('domcontentloaded', {timeout: 30000})
-      //await page.screenshot({ path: `./screenshots/${browserName}.png` });
       await page.click(LoginPage.selectors.signUpBtn)
       await page.waitForLoadState('networkidle', {timeout: 30000})
     },

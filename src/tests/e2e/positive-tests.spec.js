@@ -4,25 +4,34 @@ import BasePage from '../../framework/pages/BasePage.js';
 import LoginPage from '../../framework/pages/LoginPage.js'
 import SignUpPage from '../../framework/pages/SignUpPage.js';
 import UserCreator from '../../framework/fixture/UserCreator.js';
-import {setupTest,teardownTest} from '../../framework/config/setupTeardown.js';
+import SetupTeardown from '../../framework/config/setupTeardown.js';
+
 
 const basePage = new BasePage();
 const loginPage = new LoginPage()
 const signUpPage = new SignUpPage();
 const createUserDataSet = new UserCreator();
+const setupTeardown = new SetupTeardown();
 let userData;
 
 
 test.describe('Positive Tests', () => {
-    test.beforeEach(async ({ page, browserName }) => {
-        await setupTest({ page, browserName });
-        if (!userData) {
-            userData = await createUserDataSet.createUserDataSet();
-        }
+
+    test.beforeAll(async ()=>{
+        userData = createUserDataSet.createUserDataSet();
+    })
+
+    test.beforeEach(async ({ page }) => {
+        await setupTeardown.setupLoginTests({ page }); // Передаем объект с свойством "page"
     });
-    test.afterEach(teardownTest);
+
+    test.afterEach(async ({ page }) => {
+        await setupTeardown.teardownTest({ page });
+    });
+
 
     test('should create user', async ({page}) => {
+        userData = await userData
         await expect(page).toHaveURL(siteMap.pages.loginPage);
         await expect(await page.textContent(LoginPage.selectors.signUpForm)).toContain('New User Signup!');
         await loginPage.functions.fillSignUpForm(page,userData)
@@ -40,6 +49,7 @@ test.describe('Positive Tests', () => {
     });
 
     test('should login/logout user', async ({page}) => {
+        userData = await userData
         await expect(page).toHaveURL(siteMap.pages.loginPage);
         await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account');
         await loginPage.functions.fillLoginInForm(page,userData)
@@ -50,6 +60,7 @@ test.describe('Positive Tests', () => {
     });
 
     test('failed to login with wrong password', async ({ page }) => {
+        userData = await userData
         await expect(page).toHaveURL(siteMap.pages.loginPage);
         await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account');
         await page.fill(LoginPage.selectors.emailLogField, userData.email);
@@ -61,6 +72,7 @@ test.describe('Positive Tests', () => {
     });
 
     test('failed to login with wrong email', async ({ page }) => {
+        userData = await userData
         await expect(page).toHaveURL(siteMap.pages.loginPage);
         await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account');
         await page.fill(LoginPage.selectors.emailLogField, 'wrongemail@example.com');
@@ -72,6 +84,7 @@ test.describe('Positive Tests', () => {
     });
 
     test('failed to register with existing email', async ({ page }) => {
+        userData = await userData
         await expect(page).toHaveURL(siteMap.pages.loginPage);
         await expect(await page.textContent(LoginPage.selectors.signUpForm)).toContain('New User Signup!');
         await loginPage.functions.fillSignUpForm(page,userData)
@@ -81,6 +94,7 @@ test.describe('Positive Tests', () => {
     });
 
     test('should login/delete user', async ({page}) => {
+        userData = await userData
         await expect(page).toHaveURL(siteMap.pages.loginPage);
         await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account');
         await page.fill(LoginPage.selectors.emailLogField, userData.email);
