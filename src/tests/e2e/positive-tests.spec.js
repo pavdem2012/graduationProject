@@ -44,7 +44,6 @@ test.describe('Positive Tests', () => {
         await signUpPage.functions.fillAccForm(page, userData)
         await expect(await page.textContent(SignUpPage.selectors.accCreateHeader)).toContain('Account Created!');
         await page.click(SignUpPage.selectors.continueBtn);
-        // await setupTeardown.checkAndNavigateURL({ page })
         await expect(page).toHaveURL(siteMap.pages.basePage);
         await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`);
     });
@@ -101,7 +100,6 @@ test.describe('Positive Tests', () => {
         await page.fill(LoginPage.selectors.emailLogField, userData.email);
         await page.fill(LoginPage.selectors.passLogField, userData.userPass);
         await page.click(LoginPage.selectors.loginBtn);
-        // await page.waitForLoadState('networkidle', { timeout: 30000 });
         await expect(page).toHaveURL(siteMap.pages.basePage);
         await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`);
         await page.click(basePage.selectors.deleteAccBtn);

@@ -17,8 +17,6 @@ export default class LoginPage {
       await page.fill(LoginPage.selectors.emailField, userData.email)
       await page.waitForLoadState('domcontentloaded', {timeout: 30000})
       await page.click(LoginPage.selectors.signUpBtn)
-
-      // await page.waitForLoadState('networkidle', {timeout: 30000})
     },
 
     async fillLoginInForm (page,userData) {
@@ -26,7 +24,6 @@ export default class LoginPage {
       await page.fill(LoginPage.selectors.passLogField, userData.userPass)
       await page.waitForLoadState('domcontentloaded', {timeout: 30000})
       await page.click(LoginPage.selectors.loginBtn)
-      // await page.waitForLoadState('networkidle', {timeout: 30000})
     }
   }
 }
