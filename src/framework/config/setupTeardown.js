@@ -9,7 +9,7 @@ export default class SetupTeardown {
 
     async setupLoginTests({ page }) {
         await page.goto(siteMap.pages.basePage);
-        await page.waitForLoadState('networkidle', { timeout: 30000 });
+        // await page.waitForLoadState('networkidle', { timeout: 30000 });
         await expect(page).toHaveURL(siteMap.pages.basePage);
         await expect(page).toHaveTitle('Automation Exercise');
         await page.click(this.basePage.selectors.signUpBtn);
