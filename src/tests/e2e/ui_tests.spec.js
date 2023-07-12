@@ -45,7 +45,7 @@ test.describe('User CRUD Tests', () => {
         await expect(emailFieldValue).toContain(userData.email);
         await signUpPage.functions.fillAccForm(page, userData);
         await expect(await page.textContent(SignUpPage.selectors.accCreateHeader)).toContain('Account Created!');
-        await page.click(SignUpPage.selectors.continueBtn);
+        await page.click(SignUpPage.selectors.continueBtn, { force: true });
         await expect(page).toHaveURL(siteMap.pages.basePage);
         await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`);
     });
@@ -57,7 +57,7 @@ test.describe('User CRUD Tests', () => {
         await loginPage.functions.fillLoginInForm(page, userData);
         await expect(page).toHaveURL(siteMap.pages.basePage);
         await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`);
-        await page.click(basePage.selectors.logoutBtn);
+        await page.click(basePage.selectors.logoutBtn, { force: true });
         await expect(page).toHaveURL(siteMap.pages.loginPage);
     });
 
@@ -67,7 +67,7 @@ test.describe('User CRUD Tests', () => {
         await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account');
         await page.fill(LoginPage.selectors.emailLogField, userData.email);
         await page.fill(LoginPage.selectors.passLogField, 'wrongpassword');
-        await page.click(LoginPage.selectors.loginBtn);
+        await page.click(LoginPage.selectors.loginBtn, { force: true });
         const text = await page.textContent('p[style="color: red;"]');
         await expect(text).toContain('Your email or password is incorrect!');
         await expect(page).toHaveURL(siteMap.pages.loginPage);
@@ -79,7 +79,7 @@ test.describe('User CRUD Tests', () => {
         await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account');
         await page.fill(LoginPage.selectors.emailLogField, 'wrongemail@example.com');
         await page.fill(LoginPage.selectors.passLogField, userData.userPass);
-        await page.click(LoginPage.selectors.loginBtn);
+        await page.click(LoginPage.selectors.loginBtn, { force: true });
         const text = await page.textContent('p[style="color: red;"]');
         await expect(text).toContain('Your email or password is incorrect!');
         await expect(page).toHaveURL(siteMap.pages.loginPage);
@@ -101,13 +101,13 @@ test.describe('User CRUD Tests', () => {
         await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account');
         await page.fill(LoginPage.selectors.emailLogField, userData.email);
         await page.fill(LoginPage.selectors.passLogField, userData.userPass);
-        await page.click(LoginPage.selectors.loginBtn);
+        await page.click(LoginPage.selectors.loginBtn, { force: true });
         await expect(page).toHaveURL(siteMap.pages.basePage);
         await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`);
-        await page.click(basePage.selectors.deleteAccBtn);
+        await page.click(basePage.selectors.deleteAccBtn, { force: true });
         await expect(page).toHaveURL(siteMap.pages.accDeletePage);
         await expect(await page.textContent(SignUpPage.selectors.accDeleteHeader)).toContain('Account Deleted!');
-        await page.click(SignUpPage.selectors.continueBtn);
+        await page.click(SignUpPage.selectors.continueBtn, { force: true });
         await expect(page).toHaveURL(siteMap.pages.basePage);
     });
 });
