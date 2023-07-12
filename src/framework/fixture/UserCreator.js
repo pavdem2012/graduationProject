@@ -1,10 +1,6 @@
 import { faker } from '@faker-js/faker';
 export default class UserCreator {
 
-  constructor() {
-    //this.userCounts = new Map();
-  }
-
   async createUserDataSet() {
     const firstName = faker.person.firstName();
     let user;
@@ -20,8 +16,6 @@ export default class UserCreator {
     const city = faker.location.city();
     const zipCode = faker.location.zipCode('### ###');
     const phone = faker.phone.number('+7 9## ### ## ##');
-
-
     user = {
       firstName,
       email,
@@ -34,7 +28,6 @@ export default class UserCreator {
       state,
       city,
       zipCode,
-
     };
     return user;
   }
