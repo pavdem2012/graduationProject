@@ -1,9 +1,9 @@
 name: Graduation Project Tests
 on:
   push:
-    branches: [ main, master ]
+    branches: [ develop, master ]
   pull_request:
-    branches: [ main, master ]
+    branches: [  master ]
 
 # Down scope as necessary via https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
 permissions:
@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
