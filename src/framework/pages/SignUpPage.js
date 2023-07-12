@@ -49,7 +49,7 @@ export default class SignUpPage {
       await page.type(SignUpPage.selectors.mobileNumField, resolvedUserData.phone)
       await page.waitForLoadState('domcontentloaded', {timeout: 30000})
       await page.click(SignUpPage.selectors.createAccBtn);
-      await page.waitForLoadState('networkidle', {timeout: 30000})
+      // await page.waitForLoadState('networkidle', {timeout: 30000})
     }
   }
 }
