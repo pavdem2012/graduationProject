@@ -3,4 +3,3 @@ reports/
 test-results/
 .idea
 .eslintcache
-package-lock.json
