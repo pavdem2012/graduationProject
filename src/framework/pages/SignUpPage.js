@@ -28,7 +28,7 @@ export default class SignUpPage {
 
   functions = {
 
-    async fillAccForm (page,resolvedUserData) {
+    async fillAccForm (page, resolvedUserData) {
       await page.click(SignUpPage.selectors.titleRad)
       await page.type(SignUpPage.selectors.passRegField, resolvedUserData.userPass)
       await page.click(SignUpPage.selectors.dateRegField)
@@ -47,8 +47,8 @@ export default class SignUpPage {
       await page.type(SignUpPage.selectors.cityField, resolvedUserData.city)
       await page.type(SignUpPage.selectors.zipCodeField, resolvedUserData.zipCode)
       await page.type(SignUpPage.selectors.mobileNumField, resolvedUserData.phone)
-      await page.waitForLoadState('domcontentloaded', {timeout: 30000})
-      await page.click(SignUpPage.selectors.createAccBtn);
+      await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
+      await page.click(SignUpPage.selectors.createAccBtn)
     }
   }
 }
