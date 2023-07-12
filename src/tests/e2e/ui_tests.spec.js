@@ -34,21 +34,34 @@ test.describe('User CRUD Tests', () => {
 
     test('should create user', async ({ page }) => {
         userData = await userData;
-        await expect(page).toHaveURL(siteMap.pages.loginPage);
-        await expect(await page.textContent(LoginPage.selectors.signUpForm)).toContain('New User Signup!');
-        await loginPage.functions.fillSignUpForm(page, userData);
-        await expect(page).toHaveURL(siteMap.pages.signUpPage);
-        await expect(await page.textContent(SignUpPage.selectors.accInfoBlock)).toContain('Enter Account Information');
-        const nameFieldValue = await page.$eval(SignUpPage.selectors.nameRegField, (el) => el.value);
-        await expect(nameFieldValue).toContain(userData.firstName);
-        const emailFieldValue = await page.$eval(SignUpPage.selectors.emailRegField, (el) => el.value);
-        await expect(emailFieldValue).toContain(userData.email);
-        await signUpPage.functions.fillAccForm(page, userData);
-        await expect(await page.textContent(SignUpPage.selectors.accCreateHeader)).toContain('Account Created!');
-        await page.click(SignUpPage.selectors.continueBtn);
-        await expect(page).toHaveURL(siteMap.pages.basePage);
-        await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`);
+
+        await test.step('Step 1: Verify initial page', async () => {
+            await expect(page).toHaveURL(siteMap.pages.loginPage);
+            await expect(await page.textContent(LoginPage.selectors.signUpForm)).toContain('New User Signup!');
+        });
+
+        await test.step('Step 2: Fill in sign-up form', async () => {
+            await loginPage.functions.fillSignUpForm(page, userData);
+            await expect(page).toHaveURL(siteMap.pages.signUpPage);
+            await expect(await page.textContent(SignUpPage.selectors.accInfoBlock)).toContain('Enter Account Information');
+            const nameFieldValue = await page.$eval(SignUpPage.selectors.nameRegField, (el) => el.value);
+            await expect(nameFieldValue).toContain(userData.firstName);
+            const emailFieldValue = await page.$eval(SignUpPage.selectors.emailRegField, (el) => el.value);
+            await expect(emailFieldValue).toContain(userData.email);
+        });
+
+        await test.step('Step 3: Submit the form', async () => {
+            await signUpPage.functions.fillAccForm(page, userData);
+            await expect(await page.textContent(SignUpPage.selectors.accCreateHeader)).toContain('Account Created!');
+            await page.click(SignUpPage.selectors.continueBtn);
+        });
+
+        await test.step('Step 4: Verify successful sign-up', async () => {
+            await expect(page).toHaveURL(siteMap.pages.basePage);
+            await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`);
+        });
     });
+
 
     test('should login/logout user', async ({ page }) => {
         userData = await userData;
