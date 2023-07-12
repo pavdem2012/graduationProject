@@ -44,7 +44,7 @@ test.describe('Positive Tests', () => {
         await signUpPage.functions.fillAccForm(page, userData)
         await expect(await page.textContent(SignUpPage.selectors.accCreateHeader)).toContain('Account Created!');
         await page.click(SignUpPage.selectors.continueBtn);
-        await setupTeardown.checkAndNavigateURL({ page })
+        // await setupTeardown.checkAndNavigateURL({ page })
         await expect(page).toHaveURL(siteMap.pages.basePage);
         await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`);
     });
