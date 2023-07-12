@@ -21,16 +21,23 @@ class TestSuite extends SetupTeardown {
 
 test.describe('User CRUD Tests', () => {
     test.beforeAll(async () => {
-        userData = await createUserDataSet.createUserDataSet();
+        await test.step('Step 1: Create user data set', async () => {
+            userData = await createUserDataSet.createUserDataSet();
+        });
     });
 
     test.beforeEach(async ({ page }) => {
-        await setupTeardown.setupLoginTests({ page });
+        await test.step('Step 1: Setup login tests', async () => {
+            await setupTeardown.setupLoginTests({ page });
+        });
     });
 
     test.afterEach(async ({ page }) => {
-        await setupTeardown.teardownTest({ page });
+        await test.step('Step 1: Teardown test', async () => {
+            await setupTeardown.teardownTest({ page });
+        });
     });
+
 
     test('should create user', async ({ page }) => {
         userData = await userData;
