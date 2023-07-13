@@ -1,0 +1,96 @@
+{
+  "productsList":{
+    "type": "object",
+    "properties": {
+      "responseCode": {
+        "type": "number",
+        "enum": [200]
+      },
+      "products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "number" },
+            "name": { "type": "string" },
+            "price": { "type": "string" },
+            "brand": { "type": "string" },
+            "category": {
+              "type": "object",
+              "properties": {
+                "usertype": {
+                  "type": "object",
+                  "properties": {
+                    "usertype": { "type": "string" }
+                  },
+                  "required": ["usertype"]
+                },
+                "category": { "type": "string" }
+              },
+              "required": ["usertype", "category"]
+            }
+          },
+          "required": ["id", "name", "price", "brand", "category"]
+        }
+      }
+    },
+    "required": ["responseCode", "products"]
+  },
+  "productsBrandsListErr": {
+    "type": "object",
+    "properties": {
+      "responseCode": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "responseCode",
+      "message"
+    ]
+  },
+  "allBrandsList":{
+    "type": "object",
+    "properties": {
+      "responseCode": {
+        "type": "number",
+        "enum": [200]
+      },
+      "brands": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "number" },
+            "brand": { "type": "string" }
+          },
+          "required": ["id", "brand"]
+        }
+      }
+    },
+    "required": ["responseCode", "brands"]
+  },
+  "searchProducts":     {
+    "type": "object",
+    "properties": {
+      "responseCode": { "type": "number", "minimum": 200, "maximum": 299 },
+      "products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "number" },
+            "name": { "type": "string" },
+            "price": { "type": "string" },
+            "brand": { "type": "string" },
+            "category": { "type": "object" }
+          },
+          "required": ["id", "name", "price", "brand", "category"]
+        }
+      }
+    },
+    "required": ["responseCode", "products"]
+  }
+}
