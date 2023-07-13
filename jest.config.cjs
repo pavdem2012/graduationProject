@@ -11,19 +11,16 @@ module.exports = {
     }]
   ],
   testRunner: 'jest-jasmine2',
-  // setupFilesAfterEnv: [
-  //   'jest-extended',
-  //   'jest-allure/dist/setup'
-  // ],
+  setupFilesAfterEnv: [
+    'jest-extended'
+  ],
   moduleFileExtensions: ['js', 'json'],
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.jsx?$': 'babel-jest'
   },
-  testMatch: ['**/src/tests/api/**/*.spec.*'],
+  testMatch: ['**/src/tests/api/*.spec.*'],
   globals: {
-    testTimeout: 50000,
+    testTimeout: 50000
   },
   verbose: true
 }
-
-// module.exports = config
