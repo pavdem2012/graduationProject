@@ -2,7 +2,7 @@ name: Graduation Project Tests
 on:
   workflow_dispatch:
   push:
-    branches: [ develop, master ]
+    branches: [ develop, master , develop_api]
   pull_request:
     branches: [  master ]
 
