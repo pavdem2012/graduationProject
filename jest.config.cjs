@@ -1,7 +1,6 @@
 /** @type {import('jest').Config} */
 module.exports = {
   testEnvironment: 'node',
-  // testMatch: ['**/tests/api/**/*.spec.*'],
   reporters: [
     'default',
     ['jest-html-reporters', {
