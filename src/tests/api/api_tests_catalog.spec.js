@@ -10,6 +10,7 @@ const ajv = new Ajv({ allErrors: true })
 ajvFormats(ajv)
 let response
 
+let formData
 /* global test */
 // eslint-disable-next-line
 describe('API products&brands tests', () => {
@@ -70,7 +71,7 @@ describe('API products&brands tests', () => {
   const searchProducts = ['top', 'tshirt', 'jean', 'dress', 'saree', 'sleeves']
 
   test.each(searchProducts)('POST To Search Product by "%s"', async (searchProduct) => {
-    const formData = new URLSearchParams()
+    formData = new URLSearchParams()
     formData.append('search_product', searchProduct)
     response = await productsSearchResp({ path: '/searchProduct', method: 'post', formData })
     expect(response.status).toEqual(200)
