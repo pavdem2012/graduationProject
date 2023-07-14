@@ -3,8 +3,8 @@ import Ajv from 'ajv'
 import ajvFormats from 'ajv-formats'
 
 import schemas from '../../framework/schemas/multipleSchemas.json'
-import { productsListResp, productsSearchResp } from '../../framework/api_controllers/productsList.js'
-import { brandsListResp } from '../../framework/api_controllers/brandsList.js'
+import { productsListResp, productsSearchResp } from '../../framework/api_controllers/productsListController.js'
+import { brandsListResp } from '../../framework/api_controllers/brandsListController.js'
 
 const ajv = new Ajv({ allErrors: true })
 ajvFormats(ajv)
@@ -67,7 +67,7 @@ describe('API products&brands tests', () => {
     expect(ajv.validate(schemas.productsBrandsListErr, response.data)).toBe(true)
   })
 
-  const searchProducts = ['top', 'tshirt', 'jean']
+  const searchProducts = ['top', 'tshirt', 'jean', 'dress', 'saree', 'sleeves']
 
   test.each(searchProducts)('POST To Search Product by "%s"', async (searchProduct) => {
     const formData = new URLSearchParams()
