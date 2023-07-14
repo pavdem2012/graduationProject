@@ -1,21 +1,24 @@
-import axios from 'axios'
 import expect from 'expect'
 import Ajv from 'ajv'
 import ajvFormats from 'ajv-formats'
 
-import siteMap from '../../framework/config/siteMap.js'
 import schemas from '../../framework/schemas/multipleSchemas.json'
+import { productsListResp, productsSearchResp } from '../../framework/api_controllers/productsList.js'
+import { brandsListResp } from '../../framework/api_controllers/brandsList.js'
 
 const ajv = new Ajv({ allErrors: true })
 ajvFormats(ajv)
+let response
 
 /* global test */
 // eslint-disable-next-line
 describe('API products&brands tests', () => {
   test('Get All Products List', async () => {
-    const response = await axios.get(`${siteMap.pages.apiUrl}/productsList`)
+    response = await productsListResp({ path: '/productsList', method: 'get' })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
+    expect(response.data.responseCode).toBeDefined()
+    expect(response.data.responseCode).toEqual(200)
     expect(response.data.products).toBeDefined()
     expect(Array.isArray(response.data.products)).toBe(true)
     expect(ajv.validate(schemas.productsList, response.data)).toBe(true)
@@ -28,7 +31,7 @@ describe('API products&brands tests', () => {
     })
   })
   test('POST To All Products List', async () => {
-    const response = await axios.post(`${siteMap.pages.apiUrl}/productsList`)
+    response = await productsListResp({ path: '/productsList', method: 'post' })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
@@ -39,7 +42,7 @@ describe('API products&brands tests', () => {
   })
 
   test('Get All Brands List', async () => {
-    const response = await axios.get(`${siteMap.pages.apiUrl}/brandsList`)
+    response = await brandsListResp({ path: '/brandsList', method: 'get' })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
@@ -54,7 +57,7 @@ describe('API products&brands tests', () => {
   })
 
   test('PUT To All Brands List', async () => {
-    const response = await axios.put(`${siteMap.pages.apiUrl}/brandsList`)
+    response = await brandsListResp({ path: '/brandsList', method: 'put' })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
@@ -69,9 +72,11 @@ describe('API products&brands tests', () => {
   test.each(searchProducts)('POST To Search Product by "%s"', async (searchProduct) => {
     const formData = new URLSearchParams()
     formData.append('search_product', searchProduct)
-    const response = await axios.post(`${siteMap.pages.apiUrl}/searchProduct`, formData)
+    response = await productsSearchResp({ path: '/searchProduct', method: 'post', formData })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
+    expect(response.data.responseCode).toBeDefined()
+    expect(response.data.responseCode).toEqual(200)
     expect(response.data.products).toBeDefined()
     expect(Array.isArray(response.data.products)).toBe(true)
     expect(ajv.validate(schemas.searchProducts, response.data)).toBe(true)
@@ -85,7 +90,7 @@ describe('API products&brands tests', () => {
   })
 
   test('POST To Search Product without search_product parameter', async () => {
-    const response = await axios.post(`${siteMap.pages.apiUrl}/searchProduct`)
+    response = await productsSearchResp({ path: '/searchProduct', method: 'post' })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
