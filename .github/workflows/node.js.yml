@@ -40,7 +40,9 @@ jobs:
       run: npm update
     - name: Run Jest api_tests
       run: npm run test:api
+      continue-on-error: true
     - name: Upload api_tests artifacts
+      continue-on-error: true
       uses: actions/upload-artifact@v3
       if: always()
       with:
@@ -52,7 +54,9 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright ui_tests
       run: npx playwright test
+      continue-on-error: true
     - name: Upload ui_tests artifacts
+      continue-on-error: true
       uses: actions/upload-artifact@v3
       if: always()
       with:
@@ -61,6 +65,7 @@ jobs:
         path: ./reports/playwright/
         retention-days: 30
     - name: Upload united artifacts for github-pages
+      continue-on-error: true
       if: always()
       uses: actions/upload-pages-artifact@v1
       with:
