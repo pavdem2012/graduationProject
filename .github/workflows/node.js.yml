@@ -72,7 +72,7 @@ jobs:
         folder: reports
         clean: true
         token: ${{ secrets.TOKEN }}
-    - name: send telegram message on push
+    - name: Send telegram message on push
       uses: appleboy/telegram-action@master
       with:
         to: -${{ secrets.TELEGRAM_TO }}
