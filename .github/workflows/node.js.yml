@@ -83,6 +83,6 @@ jobs:
 
           Repository: ${{ github.repository }}
 
-          View the changes by link: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          Click the link to view the changes.: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-          View the report after five minutes by link: https://pavdem2012.github.io/graduationProject/
+          You will be able to access the latest testing reports in five minutes using the provided link: https://pavdem2012.github.io/graduationProject/
