@@ -48,7 +48,7 @@ test.describe('User CRUD Tests', () => {
     await expect(await page.textContent(SignUpPage.selectors.accCreateHeader)).toContain('Account Created!')
     await page.click(SignUpPage.selectors.continueBtn)
     await expect(page).toHaveURL(siteMap.pages.basePage)
-    await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.lastName}`)
+    await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`)
   })
 
   test('should login/logout user', async ({ page }) => {
