@@ -45,6 +45,7 @@ jobs:
       if: always()
       with:
         name: jest-report
+        if-no-files-found: error
         path: ./reports/jest/
         retention-days: 30
     - name: Install Browsers for Playwright ui_tests
@@ -56,6 +57,7 @@ jobs:
       if: always()
       with:
         name: playwright-report
+        if-no-files-found: error
         path: ./reports/playwright/
         retention-days: 30
     - name: Upload united artifacts for github-pages
@@ -67,6 +69,6 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4
       continue-on-error: true
       with:
-        folder: reports
+        folder: artifact
         clean: true
         token: ${{ secrets.TOKEN }}
