@@ -38,7 +38,7 @@ describe('userTests', () => {
     formData.append('password', userData.userPass)
     formData.append('title', 'Mr')
     response = await universUserController({ path: '/createAccount', method: 'post', formData })
-    expect(response.status).toEqual(200)
+    expect(response.status).toEqual(201)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
     expect(response.data.responseCode).toEqual(201)
