@@ -63,3 +63,10 @@ jobs:
       uses: actions/upload-pages-artifact@v1
       with:
         path: 'reports'
+    - name: Deploy united artifacts
+      uses: JamesIves/github-pages-deploy-action@v4
+      continue-on-error: true
+      with:
+        folder: report
+        clean: true
+        token: ${{ secrets.TOKEN }}
