@@ -56,3 +56,8 @@ jobs:
         name: playwright-report
         path: reports/playwright/
         retention-days: 30
+    - name: Upload artifact
+      if: always()
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: 'reports'
