@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 export default class UserCreator {
   async createUserDataSet () {
-    const firstName = faker.person.firstName()
     let user
+    const firstName = faker.person.firstName()
     const userPass = faker.internet.password()
     const lastName = faker.person.lastName()
     let email = faker.internet.email({ firstName, lastName })
