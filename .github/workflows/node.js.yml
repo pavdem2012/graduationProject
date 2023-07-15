@@ -72,3 +72,17 @@ jobs:
         folder: reports
         clean: true
         token: ${{ secrets.TOKEN }}
+    - name: send telegram message on push
+      uses: appleboy/telegram-action@master
+      with:
+        to: -${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ${{ github.actor }} created commit:
+          Commit message: ${{ github.event.commits[0].message }}
+
+          Repository: ${{ github.repository }}
+
+          View the changes by link: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+          View the report after five minutes by link: https://pavdem2012.github.io/graduationProject/
