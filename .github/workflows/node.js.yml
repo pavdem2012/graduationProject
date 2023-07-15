@@ -63,7 +63,7 @@ jobs:
       uses: actions/upload-pages-artifact@v1
       with:
         path: 'reports'
-    - name: Deploy united artifacts
+    - name: Deploy united artifacts on github-pages
       uses: JamesIves/github-pages-deploy-action@v4
       continue-on-error: true
       with:
