@@ -38,7 +38,7 @@ jobs:
       run: npm ci
     - name: Update dependencies
       run: npm update
-    - name: Run jest_api tests
+    - name: Run Jest api_tests
       run: npm run test:api
     - name: Upload api_tests artifacts
       uses: actions/upload-artifact@v3
@@ -47,9 +47,9 @@ jobs:
         name: jest-report
         path: reports/jest/
         retention-days: 30
-    - name: Install Browsers for Playwright_ui tests
+    - name: Install Browsers for Playwright ui_tests
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
+    - name: Run Playwright ui_tests
       run: npx playwright test
     - name: Upload ui_tests artifacts
       uses: actions/upload-artifact@v3
@@ -58,7 +58,7 @@ jobs:
         name: playwright-report
         path: reports/playwright/
         retention-days: 30
-    - name: Upload united artifacts
+    - name: Upload united artifacts for github-pages
       if: always()
       uses: actions/upload-pages-artifact@v1
       with:
