@@ -40,7 +40,8 @@ jobs:
       run: npm update
     - name: Run jest_api tests
       run: npm run test:api
-    - uses: actions/upload-artifact@v3
+    - name: Upload api_tests artifacts
+      uses: actions/upload-artifact@v3
       if: always()
       with:
         name: jest-report
@@ -50,13 +51,14 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
-    - uses: actions/upload-artifact@v3
+    - name: Upload ui_tests artifacts
+      uses: actions/upload-artifact@v3
       if: always()
       with:
         name: playwright-report
         path: reports/playwright/
         retention-days: 30
-    - name: Upload artifact
+    - name: Upload united artifacts
       if: always()
       uses: actions/upload-pages-artifact@v1
       with:
