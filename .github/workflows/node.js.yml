@@ -69,6 +69,6 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4
       continue-on-error: true
       with:
-        folder: artifact
+        folder: reports
         clean: true
         token: ${{ secrets.TOKEN }}
