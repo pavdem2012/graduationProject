@@ -64,6 +64,8 @@ jobs:
       if: always()
       uses: actions/upload-pages-artifact@v1
       with:
+        name: united-report
+        if-no-files-found: error
         path: 'reports'
     - name: Deploy united artifacts on github-pages
       uses: JamesIves/github-pages-deploy-action@v4
