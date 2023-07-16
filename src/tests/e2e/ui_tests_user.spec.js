@@ -20,7 +20,7 @@ class TestSuite extends SetupTeardown {
   }
 }
 
-test.describe.skip('User CRUD Tests', () => {
+test.describe('User CRUD Tests', () => {
   test.beforeAll(async () => {
     userData = await createUserDataSet.createUserDataSet()
   })
