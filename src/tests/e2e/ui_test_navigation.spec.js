@@ -65,14 +65,14 @@ test.describe('Navigation Tests', () => {
     // await page.waitForTimeout(10000)
     // await page.keyboard.press('Enter')
     // await page.click(contactUsPage.selectors.contactUsFormSubmitBtn)
-    // page.on('dialog', async dialog => {
-    //   // Verify type of dialog
-    //   expect(dialog.type()).toContain('confirm')
-    //   // Verify Dialog Message
-    //   expect(dialog.message()).toContain('Press OK to proceed!')
-    //   // Click on OK Button
-    //   await dialog.accept()
-    // })
-    // await expect(page.locator(contactUsPage.selectors.contactUsFormSuccessMsg)).toHaveText('Success! Your details have been submitted successfully.')
+    page.on('dialog', async dialog => {
+      // Verify type of dialog
+      expect(dialog.type()).toContain('confirm')
+      // Verify Dialog Message
+      expect(dialog.message()).toContain('Press OK to proceed!')
+      // Click on OK Button
+      await dialog.accept()
+    })
+    await expect(page.locator(contactUsPage.selectors.contactUsFormSuccessMsg)).toHaveText('Success! Your details have been submitted successfully.')
   })
 })
