@@ -14,6 +14,13 @@ let formData
 /* global test */
 // eslint-disable-next-line
 describe('API products&brands tests', () => {
+  /**
+   * API 1: Get All Products List
+   * API URL: https://automationexercise.com/api/productsList
+   * Request Method: GET
+   * Response Code: 200
+   * Response JSON: All products list
+   */
   test('Get All Products List', async () => {
     response = await productsListResp({ path: '/productsList', method: 'get' })
     expect(response.status).toEqual(200)
@@ -31,6 +38,13 @@ describe('API products&brands tests', () => {
       expect(product.price).toBeDefined()
     })
   })
+  /**
+   * API 2: POST To All Products List
+   * API URL: https://automationexercise.com/api/productsList
+   * Request Method: POST
+   * Response Code: 405
+   * Response Message: This request method is not supported.
+   */
   test('POST To All Products List', async () => {
     response = await productsListResp({ path: '/productsList', method: 'post' })
     expect(response.status).toEqual(200)
@@ -42,6 +56,13 @@ describe('API products&brands tests', () => {
     expect(ajv.validate(schemas.productsBrandsListErr, response.data)).toBe(true)
   })
 
+  /**
+   * API 3: Get All Brands List
+   * API URL: https://automationexercise.com/api/brandsList
+   * Request Method: GET
+   * Response Code: 200
+   * Response JSON: All brands list
+   */
   test('Get All Brands List', async () => {
     response = await brandsListResp({ path: '/brandsList', method: 'get' })
     expect(response.status).toEqual(200)
@@ -56,7 +77,13 @@ describe('API products&brands tests', () => {
       expect(brands.id).toBeDefined()
     })
   })
-
+  /**
+   * API 4: PUT To All Brands List
+   * API URL: https://automationexercise.com/api/brandsList
+   * Request Method: PUT
+   * Response Code: 405
+   * Response Message: This request method is not supported.
+   */
   test('PUT To All Brands List', async () => {
     response = await brandsListResp({ path: '/brandsList', method: 'put' })
     expect(response.status).toEqual(200)
@@ -69,7 +96,14 @@ describe('API products&brands tests', () => {
   })
 
   const searchProducts = ['top', 'tshirt', 'jean', 'dress', 'saree', 'sleeves']
-
+  /**
+   * API 5: POST To Search Product
+   * API URL: https://automationexercise.com/api/searchProduct
+   * Request Method: POST
+   * Request Parameter: search_product (For example: top, tshirt, jean)
+   * Response Code: 200
+   * Response JSON: Searched products list
+   */
   test.each(searchProducts)('POST To Search Product by "%s"', async (searchProduct) => {
     formData = new URLSearchParams()
     formData.append('search_product', searchProduct)
@@ -89,7 +123,13 @@ describe('API products&brands tests', () => {
       expect(product.price).toBeDefined()
     })
   })
-
+  /**
+   * API 6: POST To Search Product without search_product parameter
+   * API URL: https://automationexercise.com/api/searchProduct
+   * Request Method: POST
+   * Response Code: 400
+   * Response Message: Bad request, search_product parameter is missing in POST request.
+   */
   test('POST To Search Product without search_product parameter', async () => {
     response = await productsSearchResp({ path: '/searchProduct', method: 'post' })
     expect(response.status).toEqual(200)

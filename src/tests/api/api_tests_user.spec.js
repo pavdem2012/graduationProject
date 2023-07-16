@@ -25,6 +25,14 @@ let formData
 /* global test */
 // eslint-disable-next-line
 describe('userTests', () => {
+  /**
+   * API 11: POST To Create/Register User Account
+   * API URL: https://automationexercise.com/api/createAccount
+   * Request Method: POST
+   * Request Parameters: name, email, password, title (for example: Mr, Mrs, Miss), birth_date, birth_month, birth_year, firstname, lastname, company, address1, address2, country, zipcode, state, city, mobile_number
+   * Response Code: 201
+   * Response Message: User created!
+   */
   test('POST To Create/Register User Account', async () => {
     userData = await createUserDataSet.createUserDataSet()
     email = userData.email
@@ -47,6 +55,14 @@ describe('userTests', () => {
     expect(ajv.validate(schemas.userChangeResponses, response.data)).toBe(true)
     formData = new URLSearchParams()
   })
+  /**
+   * API 7: POST To Verify Login with valid details
+   * API URL: https://automationexercise.com/api/verifyLogin
+   * Request Method: POST
+   * Request Parameters: email, password
+   * Response Code: 200
+   * Response Message: User exists!
+   */
   test('POST To Verify Login with valid details', async () => {
     formData = new URLSearchParams()
     formData.append('email', email)
@@ -60,6 +76,14 @@ describe('userTests', () => {
     expect(response.data.message).toContain('User exists!')
     expect(ajv.validate(schemas.userChangeResponses, response.data)).toBe(true)
   })
+  /**
+   * API 8: POST To Verify Login without email parameter
+   * API URL: https://automationexercise.com/api/verifyLogin
+   * Request Method: POST
+   * Request Parameter: password
+   * Response Code: 400
+   * Response Message: Bad request, email or password parameter is missing in POST request.
+   */
   test('POST To Verify Login without email parameter', async () => {
     formData = new URLSearchParams()
     formData.append('password', userPass)
@@ -72,6 +96,13 @@ describe('userTests', () => {
     expect(response.data.message).toContain('Bad request, email or password parameter is missing in POST request.')
     expect(ajv.validate(schemas.userChangeResponses, response.data)).toBe(true)
   })
+  /**
+   * API 9: DELETE To Verify Login
+   * API URL: https://automationexercise.com/api/verifyLogin
+   * Request Method: DELETE
+   * Response Code: 405
+   * Response Message: This request method is not supported.
+   */
   test('DELETE To Verify Login', async () => {
     response = await universUserController({ path: '/verifyLogin', method: 'delete' })
     expect(response.status).toEqual(200)
@@ -82,7 +113,14 @@ describe('userTests', () => {
     expect(response.data.message).toContain('This request method is not supported.')
     expect(ajv.validate(schemas.userChangeResponses, response.data)).toBe(true)
   })
-
+  /**
+   * API 11: POST To Create/Register User Account
+   * API URL: https://automationexercise.com/api/createAccount
+   * Request Method: POST
+   * Request Parameters: name, email, password, title (for example: Mr, Mrs, Miss), birth_date, birth_month, birth_year, firstname, lastname, company, address1, address2, country, zipcode, state, city, mobile_number
+   * Response Code: 201
+   * Response Message: User created!
+   */
   test('POST To Verify Login with invalid details', async () => {
     formData = new URLSearchParams()
     formData.append('email', 'example@example.example.example')
@@ -96,7 +134,14 @@ describe('userTests', () => {
     expect(response.data.message).toContain('User not found!')
     expect(ajv.validate(schemas.userChangeResponses, response.data)).toBe(true)
   })
-
+  /**
+   * API 13: PUT METHOD To Update User Account
+   * API URL: https://automationexercise.com/api/updateAccount
+   * Request Method: PUT
+   * Request Parameters: name, email, password, title (for example: Mr, Mrs, Miss), birth_date, birth_month, birth_year, firstname, lastname, company, address1, address2, country, zipcode, state, city, mobile_number
+   * Response Code: 200
+   * Response Message: User updated!
+   */
   test('PUT METHOD To Update User Account', async () => {
     formData = new URLSearchParams()
     userData = await createUserDataSet.createUserDataSet()
@@ -117,6 +162,14 @@ describe('userTests', () => {
     expect(response.data.message).toContain('User updated!')
     expect(ajv.validate(schemas.userChangeResponses, response.data)).toBe(true)
   })
+  /**
+   * API 14: GET user account detail by email
+   * API URL: https://automationexercise.com/api/getUserDetailByEmail
+   * Request Method: GET
+   * Request Parameters: email
+   * Response Code: 200
+   * Response JSON: User Detail
+   */
   test('GET user account detail by email', async () => {
     const searchParam = email
     response = await getUserDetailByEmail({ searchParam, path: '/getUserDetailByEmail' })
@@ -143,6 +196,14 @@ describe('userTests', () => {
     expect(response.data.user.zipcode).toBe(updateUserData.get('zipcode'))
     expect(ajv.validate(schemas.userInfo, response.data)).toBe(true)
   })
+  /**
+   * API 12: DELETE METHOD To Delete User Account
+   * API URL: https://automationexercise.com/api/deleteAccount
+   * Request Method: DELETE
+   * Request Parameters: email, password
+   * Response Code: 200
+   * Response Message: Account deleted!
+   */
   test('DELETE METHOD To Delete User Account', async () => {
     formData = new URLSearchParams()
     formData.append('email', email)
