@@ -64,7 +64,7 @@ jobs:
         if-no-files-found: error
         path: ./reports/playwright/
         retention-days: 30
-#    - name: Upload united artifacts for github-pages
+#    - name: Upload united artifacts for github-pages //не оформившаяся идея для последующей выгрузки в архив
 #      continue-on-error: true
 #      if: always()
 #      uses: actions/upload-pages-artifact@v1
@@ -77,8 +77,8 @@ jobs:
         folder: reports
         clean: true
         token: ${{ secrets.TOKEN }}
-    - name: Delayed Telegram message
-      run: sleep 150
+#    - name: Delayed Telegram message //не ясно что делать чтобы информирование происходило строго после публикации
+#      run: sleep 150
     - name: Send telegram message on push
       uses: appleboy/telegram-action@master
       with:
