@@ -8,7 +8,10 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #d4f4d1;
+            background-image: url('background_picture .png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            /*opacity: 0.8;*/
             margin: 0;
             padding: 0;
         }
@@ -22,13 +25,14 @@
             border: 2px solid #333;
             border-radius: 10px;
             padding: 20px;
+            background-color: rgba(255, 255, 255, 0.4);
         }
 
         h1 {
             color: #333;
-            font-size: 400%;
+            font-size: 500%;
             margin-top: 0;
-            text-shadow: 2px 2px 2px #FF0000;
+            text-shadow: 2px 3px 4px #FE28A2;
         }
 
         .report-link-container {
@@ -36,6 +40,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
         }
 
         .report-link {
@@ -60,7 +67,8 @@
 </head>
 <body>
 <div class="report-container">
-    <h1>Test Reports</h1>
+    <h1>Test Reports for</h1>
+    <h1>AutomationExercise cite</h1>
     <div class="report-link-container">
         <a class="report-link" href="jest/index.html">Jest Report for API tests</a>
         <a class="report-link" href="playwright/index.html">Playwright Report for UI tests</a>
