@@ -4,6 +4,7 @@ export default class basePage {
     loggedBy: 'div.shop-menu li:last-child',
     logoutBtn: 'a[href="/logout"]',
     deleteAccBtn: 'a[href="/delete_account"]',
-    contactUsBtn: '[href="/contact_us"]'
+    contactUsBtn: 'a[href="/contact_us"]',
+    testCasesBtn: 'a[href="/test_cases"]'
   }
 }
