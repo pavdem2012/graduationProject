@@ -91,6 +91,8 @@ jobs:
 #        folder: reports
 #        clean: true
 #        token: ${{ secrets.TOKEN }}
+    - name: Delayed Telegram message
+      run: sleep 300
     - name: Send telegram message on push
       uses: appleboy/telegram-action@master
       with:
