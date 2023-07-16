@@ -64,12 +64,12 @@ jobs:
         if-no-files-found: error
         path: ./reports/playwright/
         retention-days: 30
-    - name: Upload united artifacts for github-pages
-      continue-on-error: true
-      if: always()
-      uses: actions/upload-pages-artifact@v1
-      with:
-        path: 'reports'
+#    - name: Upload united artifacts for github-pages
+#      continue-on-error: true
+#      if: always()
+#      uses: actions/upload-pages-artifact@v1
+#      with:
+#        path: 'reports'
     - name: Deploy united artifacts on github-pages
       uses: JamesIves/github-pages-deploy-action@v4
       continue-on-error: true
