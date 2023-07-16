@@ -64,7 +64,7 @@ test.describe('Navigation Tests', () => {
     })
     // await page.waitForTimeout(10000)
     // await page.keyboard.press('Enter')
-    // await page.click(contactUsPage.selectors.contactUsFormSubmitBtn)
+    await page.click(contactUsPage.selectors.contactUsFormSubmitBtn, { force: true })
     page.on('dialog', async dialog => {
       // Verify type of dialog
       expect(dialog.type()).toContain('confirm')
