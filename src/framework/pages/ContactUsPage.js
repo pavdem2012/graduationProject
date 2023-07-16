@@ -7,6 +7,6 @@ export default class contactUsPage {
     contactUsFormMessage: 'textarea[data-qa="message"]',
     contactUsFormUploadBtn: 'input[name="upload_file"]',
     contactUsFormSubmitBtn: 'input[name="submit"]',
-    contactUsFormSuccessMsg: 'status alert alert-success'
+    contactUsFormSuccessMsg: 'div.status'
   }
 }

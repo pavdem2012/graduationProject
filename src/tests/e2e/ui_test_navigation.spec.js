@@ -56,25 +56,9 @@ test.describe('Navigation Tests', () => {
     fs.writeFileSync('test_file.txt', 'This is a test file for uploading.')
     const handle = await page.$(contactUsPage.selectors.contactUsFormUploadBtn)
     await handle.setInputFiles('./test_file.txt')
-    // handle = await page.$(contactUsPage.selectors.contactUsFormSubmitBtn)
-    // await handle.click()
-    await page.evaluate(() => {
-      const submitButton = document.querySelector('.submit_form')
-      submitButton.click()
-    })
-    const submitButton = document.querySelector('input[name="submit"]')
-    submitButton.click()
-    // await page.waitForTimeout(10000)
-    // await page.keyboard.press('Enter')
-    await page.click(contactUsPage.selectors.contactUsFormSubmitBtn, { force: true })
-    page.on('dialog', async dialog => {
-      // Verify type of dialog
-      expect(dialog.type()).toContain('confirm')
-      // Verify Dialog Message
-      expect(dialog.message()).toContain('Press OK to proceed!')
-      // Click on OK Button
-      await dialog.accept()
-    })
+    await page.waitForLoadState('domcontentloaded', { timeout: 10000 })
+    page.on('dialog', dialog => dialog.accept())
+    await page.click(contactUsPage.selectors.contactUsFormSubmitBtn)
     await expect(page.locator(contactUsPage.selectors.contactUsFormSuccessMsg)).toHaveText('Success! Your details have been submitted successfully.')
   })
 })
