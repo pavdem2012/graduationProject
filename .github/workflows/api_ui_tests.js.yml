@@ -41,7 +41,14 @@ jobs:
     - name: Run Jest api_tests
       run: npm run test:api
       continue-on-error: true
-    - name: Upload api_tests artifacts
+    - name: Deploy united artifacts on github-pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      continue-on-error: true
+      with:
+       folder: reports
+       clean: true
+       token: ${{ secrets.TOKEN }}
+    - name: Upload api_tests artif  acts
       continue-on-error: true
       uses: actions/upload-artifact@v3
       if: always()
@@ -55,6 +62,13 @@ jobs:
     - name: Run Playwright ui_tests
       run: npx playwright test
       continue-on-error: true
+    - name: Deploy united artifacts on github-pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      continue-on-error: true
+      with:
+        folder: reports
+        clean: true
+        token: ${{ secrets.TOKEN }}
     - name: Upload ui_tests artifacts
       continue-on-error: true
       uses: actions/upload-artifact@v3
@@ -70,13 +84,13 @@ jobs:
 #      uses: actions/upload-pages-artifact@v1
 #      with:
 #        path: 'reports'
-    - name: Deploy united artifacts on github-pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      continue-on-error: true
-      with:
-        folder: reports
-        clean: true
-        token: ${{ secrets.TOKEN }}
+#    - name: Deploy united artifacts on github-pages
+#      uses: JamesIves/github-pages-deploy-action@v4
+#      continue-on-error: true
+#      with:
+#        folder: reports
+#        clean: true
+#        token: ${{ secrets.TOKEN }}
     - name: Send telegram message on push
       uses: appleboy/telegram-action@master
       with:
