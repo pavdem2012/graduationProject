@@ -58,6 +58,7 @@ test.describe('Navigation Tests', () => {
     await handle.setInputFiles('./test_file.txt')
     // handle = await page.$(contactUsPage.selectors.contactUsFormSubmitBtn)
     // await handle.click()
+    await page.click('text=Start Now')
     await page.evaluate(() => {
       const submitButton = document.querySelector('.submit_form')
       submitButton.click()
