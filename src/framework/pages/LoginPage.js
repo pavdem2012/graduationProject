@@ -12,17 +12,17 @@ export default class LoginPage {
 
   functions = {
 
-    async fillSignUpForm (page,userData) {
+    async fillSignUpForm (page, userData) {
       await page.fill(LoginPage.selectors.nameField, userData.firstName)
       await page.fill(LoginPage.selectors.emailField, userData.email)
-      await page.waitForLoadState('domcontentloaded', {timeout: 30000})
+      await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
       await page.click(LoginPage.selectors.signUpBtn)
     },
 
-    async fillLoginInForm (page,userData) {
+    async fillLoginInForm (page, userData) {
       await page.fill(LoginPage.selectors.emailLogField, userData.email)
       await page.fill(LoginPage.selectors.passLogField, userData.userPass)
-      await page.waitForLoadState('domcontentloaded', {timeout: 30000})
+      await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
       await page.click(LoginPage.selectors.loginBtn)
     }
   }

@@ -1,0 +1,160 @@
+{
+  "productsList":{
+    "type": "object",
+    "properties": {
+      "responseCode": {
+        "type": "number",
+        "enum": [200]
+      },
+      "products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "number" },
+            "name": { "type": "string" },
+            "price": { "type": "string" },
+            "brand": { "type": "string" },
+            "category": {
+              "type": "object",
+              "properties": {
+                "usertype": {
+                  "type": "object",
+                  "properties": {
+                    "usertype": { "type": "string" }
+                  },
+                  "required": ["usertype"]
+                },
+                "category": { "type": "string" }
+              },
+              "required": ["usertype", "category"]
+            }
+          },
+          "required": ["id", "name", "price", "brand", "category"]
+        }
+      }
+    },
+    "required": ["responseCode", "products"]
+  },
+  "productsBrandsListErr": {
+    "type": "object",
+    "properties": {
+      "responseCode": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "responseCode",
+      "message"
+    ]
+  },
+  "allBrandsList":{
+    "type": "object",
+    "properties": {
+      "responseCode": {
+        "type": "number",
+        "enum": [200]
+      },
+      "brands": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "number" },
+            "brand": { "type": "string" }
+          },
+          "required": ["id", "brand"]
+        }
+      }
+    },
+    "required": ["responseCode", "brands"]
+  },
+  "searchProducts":     {
+    "type": "object",
+    "properties": {
+      "responseCode": { "type": "number", "minimum": 200, "maximum": 299 },
+      "products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "number" },
+            "name": { "type": "string" },
+            "price": { "type": "string" },
+            "brand": { "type": "string" },
+            "category": { "type": "object" }
+          },
+          "required": ["id", "name", "price", "brand", "category"]
+        }
+      }
+    },
+    "required": ["responseCode", "products"]
+  },
+  "userChangeResponses": {
+    "type": "object",
+    "properties": {
+      "responseCode": {
+        "type": "number"
+      },
+      "message": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "responseCode",
+      "message"
+    ]
+  },
+  "userInfo": {
+    "type": "object",
+    "properties": {
+      "responseCode": {
+        "type": "number",
+        "minimum": 200,
+        "maximum": 299
+      },
+      "user": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "title": { "type": "string" },
+          "birth_day": { "type": "string" },
+          "birth_month": { "type": "string" },
+          "birth_year": { "type": "string" },
+          "first_name": { "type": "string" },
+          "last_name": { "type": "string" },
+          "company": { "type": "string" },
+          "address1": { "type": "string" },
+          "address2": { "type": "string" },
+          "country": { "type": "string" },
+          "state": { "type": "string" },
+          "city": { "type": "string" },
+          "zipcode": { "type": "string" }
+        },
+        "required": [
+          "id",
+          "name",
+          "email",
+          "title",
+          "birth_day",
+          "birth_month",
+          "birth_year",
+          "first_name",
+          "last_name",
+          "company",
+          "address1",
+          "country",
+          "state",
+          "city",
+          "zipcode"
+        ]
+      }
+    },
+    "required": ["responseCode", "user"]
+  }
+}
