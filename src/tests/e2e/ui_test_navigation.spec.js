@@ -138,7 +138,12 @@ test.describe('Navigation Tests', () => {
   //     }
   //   })
   // }
-  test('Search Product test', async ({ page }) => {
+  test('Search Product test', async ({ page, context }) => {
+    await context.route('**/*', (request) => {
+      request.request().url().startsWith('https://googleads.')
+        ? request.abort()
+        : request.continue()
+    })
     await page.click(basePage.selectors.productsBtn)
     await expect(page).toHaveURL(siteMap.pages.productsPage)
     await expect(page).toHaveTitle('Automation Exercise - All Products')
