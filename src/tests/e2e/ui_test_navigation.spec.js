@@ -76,6 +76,7 @@ test.describe('Navigation Tests', () => {
    */
   test('Verify Test Cases Page Navigation', async ({ page }) => {
     await page.click(basePage.selectors.testCasesBtn)
+    await page.waitForLoadState('domcontentloaded')
     await expect(page).toHaveURL(siteMap.pages.testCasesPage)
     await expect(page).toHaveTitle('Automation Practice Website for UI Testing - Test Cases')
   })
@@ -126,6 +127,7 @@ test.describe('Navigation Tests', () => {
       await expect(page).toHaveTitle('Automation Exercise - All Products')
       await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
       await page.fill(productsPage.selectors.searchField, searchProduct)
+      await page.waitForLoadState('domcontentloaded')
       await page.click(productsPage.selectors.searchBtn)
       await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
       await expect(page.locator(productsPage.selectors.productsList)).toContainText('Searched Products')
