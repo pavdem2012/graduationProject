@@ -1,4 +1,4 @@
-export default class LoginPage {
+export default class loginPage {
   static selectors = {
     signUpForm: 'div[class="signup-form"]',
     nameField: 'input[data-qa="signup-name"]',
@@ -13,17 +13,17 @@ export default class LoginPage {
   functions = {
 
     async fillSignUpForm (page, userData) {
-      await page.fill(LoginPage.selectors.nameField, userData.firstName)
-      await page.fill(LoginPage.selectors.emailField, userData.email)
+      await page.fill(loginPage.selectors.nameField, userData.firstName)
+      await page.fill(loginPage.selectors.emailField, userData.email)
       await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
-      await page.click(LoginPage.selectors.signUpBtn)
+      await page.click(loginPage.selectors.signUpBtn)
     },
 
     async fillLoginInForm (page, userData) {
-      await page.fill(LoginPage.selectors.emailLogField, userData.email)
-      await page.fill(LoginPage.selectors.passLogField, userData.userPass)
+      await page.fill(loginPage.selectors.emailLogField, userData.email)
+      await page.fill(loginPage.selectors.passLogField, userData.userPass)
       await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
-      await page.click(LoginPage.selectors.loginBtn)
+      await page.click(loginPage.selectors.loginBtn)
     }
   }
 }
