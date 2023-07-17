@@ -119,25 +119,25 @@ test.describe('Navigation Tests', () => {
    * @type {string[]}
    */
   // Не стабильное решение
-  // const searchProducts = ['Winter Top', 'Blue Cotton Indie Mickey Dress', 'Grunt Blue Slim Fit Jeans']
-  // for (const searchProduct of searchProducts) {
-  //   test(`Test Search Product "${searchProduct}"`, async ({ page }) => {
-  //     await page.click(basePage.selectors.productsBtn)
-  //     await expect(page).toHaveURL(siteMap.pages.productsPage)
-  //     await expect(page).toHaveTitle('Automation Exercise - All Products')
-  //     await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
-  //     await page.fill(productsPage.selectors.searchField, searchProduct)
-  //     await page.waitForLoadState('domcontentloaded')
-  //     await page.click(productsPage.selectors.searchBtn)
-  //     await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
-  //     await expect(page.locator(productsPage.selectors.productsList)).toContainText('Searched Products')
-  //     const products = await page.$$(productsPage.selectors.productItem)
-  //     for (const product of products) {
-  //       const isVisible = await product.isVisible()
-  //       expect(isVisible).toBe(true)
-  //     }
-  //   })
-  // }
+  const searchProducts = ['Winter Top', 'Blue Cotton Indie Mickey Dress', 'Grunt Blue Slim Fit Jeans']
+  for (const searchProduct of searchProducts) {
+    test(`Test Search Product "${searchProduct}"`, async ({ page }) => {
+      await page.click(basePage.selectors.productsBtn)
+      await expect(page).toHaveURL(siteMap.pages.productsPage)
+      await expect(page).toHaveTitle('Automation Exercise - All Products')
+      await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
+      await page.fill(productsPage.selectors.searchField, searchProduct)
+      await page.waitForLoadState('domcontentloaded')
+      await page.click(productsPage.selectors.searchBtn)
+      await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
+      await expect(page.locator(productsPage.selectors.productsList)).toContainText('Searched Products')
+      const products = await page.$$(productsPage.selectors.productItem)
+      for (const product of products) {
+        const isVisible = await product.isVisible()
+        expect(isVisible).toBe(true)
+      }
+    })
+  }
   test('Search Product test', async ({ page, context }) => {
     await context.route('**/*', (request) => {
       request.request().url().startsWith('https://googleads.')
