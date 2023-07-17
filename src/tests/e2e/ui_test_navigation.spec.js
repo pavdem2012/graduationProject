@@ -50,7 +50,7 @@ test.describe('Navigation Tests', () => {
    * 10. Verify success message 'Success! Your details have been submitted successfully.' is visible
    * 11. Click 'Home' button and verify that landed to home page successfully
    */
-  test.skip('Contact Us form validation', async ({ page }) => {
+  test('Contact Us form validation', async ({ page }) => {
     await page.click(basePage.selectors.contactUsBtn)
     await expect(page).toHaveURL(siteMap.pages.contactUsPage)
     await expect(page.locator(contactUsPage.selectors.contactUsFormHeader)).toHaveText('Get In Touch')
@@ -74,7 +74,7 @@ test.describe('Navigation Tests', () => {
    * 4. Click on 'Test Cases' button
    * 5. Verify user is navigated to test cases page successfully
    */
-  test.skip('Verify Test Cases Page Navigation', async ({ page }) => {
+  test('Verify Test Cases Page Navigation', async ({ page }) => {
     await page.click(basePage.selectors.testCasesBtn)
     await expect(page).toHaveURL(siteMap.pages.testCasesPage)
     await expect(page).toHaveTitle('Automation Practice Website for UI Testing - Test Cases')
@@ -91,7 +91,7 @@ test.describe('Navigation Tests', () => {
    * 8. User is landed to product detail page
    * 9. Verify that detail. Detail is visible: product name, category, price, availability, condition, brand
    */
-  test.skip('Verify All Products and product detail page', async ({ page }) => {
+  test('Verify All Products and product detail page', async ({ page }) => {
     await page.click(basePage.selectors.productsBtn)
     await expect(page).toHaveURL(siteMap.pages.productsPage)
     await expect(page).toHaveTitle('Automation Exercise - All Products')
