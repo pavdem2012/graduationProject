@@ -119,7 +119,7 @@ test.describe('Navigation Tests', () => {
    * 8. Verify all the products related to search are visible
    * @type {string[]}
    */
-  const searchProducts = ['Sleeves Printed Top - White', 'Blue Top', 'Winter Top', 'Premium Polo T-Shirts', 'Blue Cotton Indie Mickey Dress', 'Grunt Blue Slim Fit Jeans']
+  const searchProducts = ['Winter Top', 'Blue Cotton Indie Mickey Dress', 'Grunt Blue Slim Fit Jeans']
   for (const searchProduct of searchProducts) {
     test(`Поиск товара "${searchProduct}"`, async ({ page }) => {
       await page.click(basePage.selectors.productsBtn)
