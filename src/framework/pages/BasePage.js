@@ -5,6 +5,7 @@ export default class basePage {
     logoutBtn: 'a[href="/logout"]',
     deleteAccBtn: 'a[href="/delete_account"]',
     contactUsBtn: 'a[href="/contact_us"]',
-    testCasesBtn: 'a[href="/test_cases"]'
+    testCasesBtn: 'a[href="/test_cases"]',
+    productsBtn: 'a[href="/products"]'
   }
 }

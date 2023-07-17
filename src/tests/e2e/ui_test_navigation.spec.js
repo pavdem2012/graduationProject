@@ -6,15 +6,20 @@ import BasePage from '../../framework/pages/BasePage.js'
 // import UserCreator from '../../framework/fixture/UserCreator.js'
 import SetupTeardown from '../../framework/config/setupTeardown.js'
 import ContactUsPage from '../../framework/pages/ContactUsPage.js'
+import ProductsDetailPage from '../../framework/pages/ProductsDetailPage.js'
+import ProductsPage from '../../framework/pages/ProductsPage.js'
 import fs from 'fs'
-// import * as path from 'path'
 
+// import * as path from 'path'
+const setupTeardown = new SetupTeardown()
 const basePage = new BasePage()
 const contactUsPage = new ContactUsPage()
+const productsDetailPage = new ProductsDetailPage()
+const productsPage = new ProductsPage()
 // const loginPage = new LoginPage()
 // const signUpPage = new SignUpPage()
 // const createUserDataSet = new UserCreator()
-const setupTeardown = new SetupTeardown()
+
 // let userData
 
 // class TestSuite extends SetupTeardown {
@@ -73,5 +78,32 @@ test.describe('Navigation Tests', () => {
     await page.click(basePage.selectors.testCasesBtn)
     await expect(page).toHaveURL(siteMap.pages.testCasesPage)
     await expect(page).toHaveTitle('Automation Practice Website for UI Testing - Test Cases')
+  })
+  /**
+   * Test Case 8: Verify All Products and product detail page
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Products' button
+   * 5. Verify user is navigated to ALL PRODUCTS page successfully
+   * 6. The products list is visible
+   * 7. Click on 'View Product' of first product
+   * 8. User is landed to product detail page
+   * 9. Verify that detail. Detail is visible: product name, category, price, availability, condition, brand
+   */
+  test('Verify All Products and product detail page', async ({ page }) => {
+    await page.click(basePage.selectors.productsBtn)
+    await expect(page).toHaveURL(siteMap.pages.productsPage)
+    await expect(page).toHaveTitle('Automation Exercise - All Products')
+    await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
+    await page.click(productsPage.selectors.viewProduct1Btn)
+    await expect(page).toHaveURL(siteMap.pages.product1DetailsPage)
+    await expect(page).toHaveTitle('Automation Exercise - Product Details')
+    await expect(page.locator(productsDetailPage.selectors.productName)).toBeVisible()
+    await expect(page.locator(productsDetailPage.selectors.category)).toBeVisible()
+    await expect(page.locator(productsDetailPage.selectors.price)).toBeVisible()
+    await expect(page.locator(productsDetailPage.selectors.availability)).toBeVisible()
+    await expect(page.locator(productsDetailPage.selectors.condition)).toBeVisible()
+    await expect(page.locator(productsDetailPage.selectors.brand)).toBeVisible()
   })
 })
