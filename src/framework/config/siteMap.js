@@ -8,6 +8,7 @@ export default {
     contactUsPage: 'https://automationexercise.com/contact_us',
     testCasesPage: 'https://automationexercise.com/test_cases',
     productsPage: 'https://automationexercise.com/products',
-    product1DetailsPage: 'https://automationexercise.com/product_details/1'
+    product1DetailsPage: 'https://automationexercise.com/product_details/1',
+    cartPage: 'https://automationexercise.com/view_cart'
   }
 }

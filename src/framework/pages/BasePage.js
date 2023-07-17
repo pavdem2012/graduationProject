@@ -6,6 +6,11 @@ export default class basePage {
     deleteAccBtn: 'a[href="/delete_account"]',
     contactUsBtn: 'a[href="/contact_us"]',
     testCasesBtn: 'a[href="/test_cases"]',
-    productsBtn: 'a[href="/products"]'
+    productsBtn: 'a[href="/products"]',
+    viewCartBtn: 'a[href="/view_cart"]',
+    susbscribeHeader: 'div.single-widget > h2',
+    susbscribeEmailField: '#susbscribe_email',
+    susbscribeEmailBtn: 'button.btn-default',
+    alertSuccessMsg: 'div.alert-success'
   }
 }

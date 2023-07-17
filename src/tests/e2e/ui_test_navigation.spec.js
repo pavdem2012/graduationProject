@@ -118,7 +118,7 @@ test.describe('Navigation Tests', () => {
    * 8. Verify all the products related to search are visible
    * @type {string[]}
    */
-  // Не стабильное решение
+  // Не стабильное решение для многопотока в разных браузерах. Очень мешает google vignette
   const searchProducts = ['Winter Top', 'Blue Cotton Indie Mickey Dress', 'Grunt Blue Slim Fit Jeans']
   for (const searchProduct of searchProducts) {
     test(`Test Search Product "${searchProduct}"`, async ({ page }) => {
@@ -158,5 +158,45 @@ test.describe('Navigation Tests', () => {
       const isVisible = await product.isVisible()
       expect(isVisible).toBe(true)
     }
+  })
+  /**
+   * Test Case 10: Verify Subscription in home page
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Scroll down to footer
+   * 5. Verify text 'SUBSCRIPTION'
+   * 6. Enter email address in input and click arrow button
+   * 7. Verify success message 'You have been successfully subscribed!' is visible
+   */
+  test('Verify Subscription in home page', async ({ page }) => {
+    await page.hover(basePage.selectors.susbscribeEmailField)
+    await expect(page.locator(basePage.selectors.susbscribeHeader)).toContainText('Subscription')
+    await page.fill(basePage.selectors.susbscribeEmailField, 'example@example.example')
+    await page.click(basePage.selectors.susbscribeEmailBtn)
+    await expect(page.locator(basePage.selectors.alertSuccessMsg)).toContainText('You have been successfully subscribed!')
+    await expect(page.locator(basePage.selectors.alertSuccessMsg)).toBeVisible()
+  })
+  /**
+   * Test Case 11: Verify Subscription in Cart page
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click 'Cart' button
+   * 5. Scroll down to footer
+   * 6. Verify text 'SUBSCRIPTION'
+   * 7. Enter email address in input and click arrow button
+   * 8. Verify success message 'You have been successfully subscribed!' is visible
+   */
+  test('Verify Subscription in Cart page', async ({ page }) => {
+    await page.click(basePage.selectors.viewCartBtn)
+    await expect(page).toHaveURL(siteMap.pages.cartPage)
+    await expect(page).toHaveTitle('Automation Exercise - Checkout')
+    await page.hover(basePage.selectors.susbscribeEmailField)
+    await expect(page.locator(basePage.selectors.susbscribeHeader)).toContainText('Subscription')
+    await page.fill(basePage.selectors.susbscribeEmailField, 'example@example.example')
+    await page.click(basePage.selectors.susbscribeEmailBtn)
+    await expect(page.locator(basePage.selectors.alertSuccessMsg)).toContainText('You have been successfully subscribed!')
+    await expect(page.locator(basePage.selectors.alertSuccessMsg)).toBeVisible()
   })
 })
