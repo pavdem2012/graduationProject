@@ -9,7 +9,7 @@
     "test:ui": "playwright test --ui",
     "test:ui:ci:1worker": "npx playwright test --workers=1",
     "test:ui:headed": "npx playwright test --headed",
-    "test:ui:ci": "npx playwright test --workers=2",
+    "test:ui:ci": "npx playwright test --workers=3",
     "lint": "eslint --ext .js --ignore-path .gitignore --cache --fix src",
     "lint:ci": "eslint --ext .js --ignore-path .gitignore src/tests"
   },
@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "ajv-formats": "^2.1.1",
+    "documentation": "^14.0.1",
     "jasmine-allure-reporter": "^1.0.2",
     "jest-allure": "^0.1.3",
     "jest-each": "^29.3.1",

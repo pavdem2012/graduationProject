@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Reports for AutomationExercise site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('background_picture .png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            /*opacity: 0.8;*/
+            margin: 0;
+            padding: 0;
+        }
+
+        .report-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 400%;
+            margin-top: 0;
+            text-shadow: 2px 2px 2px #FF0000;
+        }
+
+        .report-link-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /*background-color: rgba(255, 255, 255, 0.8);*/
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .report-button {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #FFF;
+            background-color: #007bff;
+            font-weight: bold;
+            font-size: 250%;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .report-button:hover {
+            background-color: #FF0000;
+        }
+
+        .report-button:not(:hover ~ .report-button) {
+            font-size: 250%;
+        }
+    </style>
+</head>
+<body>
+<div class="report-container">
+    <h1>Test Reports for</h1>
+    <h1>AutomationExercise site</h1>
+    <div class="report-link-container">
+        <a class="report-button" href="jest/index.html">Jest Report for API tests</a>
+        <a class="report-button" href="playwright/index.html">Playwright Report for UI tests</a>
+    </div>
+</div>
+</body>
+</html>

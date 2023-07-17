@@ -1,5 +1,6 @@
 node_modules/
-reports/
+reports/jest
+reports/playwright
 test-results/
 .idea
 .eslintcache

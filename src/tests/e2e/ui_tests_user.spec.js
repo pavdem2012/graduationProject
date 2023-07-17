@@ -32,7 +32,25 @@ test.describe('User CRUD Tests', () => {
   test.afterEach(async ({ page }) => {
     await setupTeardown.teardownTest({ page })
   })
-
+  /**
+   * Test Case 1: Register User
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Signup / Login' button
+   * 5. Verify 'New User Signup!' is visible
+   * 6. Enter name and email address
+   * 7. Click 'Signup' button
+   * 8. Verify that 'ENTER ACCOUNT INFORMATION' is visible
+   * 9. Fill details: Title, Name, Email, Password, Date of birth
+   * 10. Select checkbox 'Sign up for our newsletter!'
+   * 11. Select checkbox 'Receive special offers from our partners!'
+   * 12. Fill details: First name, Last name, Company, Address, Address2, Country, State, City, Zipcode, Mobile Number
+   * 13. Click 'Create Account button'
+   * 14. Verify that 'ACCOUNT CREATED!' is visible
+   * 15. Click 'Continue' button
+   * 16. Verify that 'Logged in as username' is visible
+   */
   test('should create user', async ({ page }) => {
     userData = await userData
     await expect(page).toHaveURL(siteMap.pages.loginPage)
@@ -50,7 +68,19 @@ test.describe('User CRUD Tests', () => {
     await expect(page).toHaveURL(siteMap.pages.basePage)
     await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`)
   })
-
+  /**
+   * Test Case 2: Login User with correct email and password
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Signup / Login' button
+   * 5. Verify 'Login to your account' is visible
+   * 6. Enter correct email address and password
+   * 7. Click 'login' button
+   * 8. Verify that 'Logged in as username' is visible
+   * 9. Click 'Logout' button
+   * 10. Verify that user is navigated to login page
+   */
   test('should login/logout user', async ({ page }) => {
     userData = await userData
     await expect(page).toHaveURL(siteMap.pages.loginPage)
@@ -61,7 +91,17 @@ test.describe('User CRUD Tests', () => {
     await page.click(basePage.selectors.logoutBtn)
     await expect(page).toHaveURL(siteMap.pages.loginPage)
   })
-
+  /**
+   * Test Case 3: Login User with incorrect email and password
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Signup / Login' button
+   * 5. Verify 'Login to your account' is visible
+   * 6. Enter incorrect password
+   * 7. Click 'login' button
+   * 8. Verify error 'Your email or password is incorrect!' is visible
+   */
   test('failed to login with wrong password', async ({ page }) => {
     userData = await userData
     await expect(page).toHaveURL(siteMap.pages.loginPage)
@@ -73,7 +113,17 @@ test.describe('User CRUD Tests', () => {
     await expect(text).toContain('Your email or password is incorrect!')
     await expect(page).toHaveURL(siteMap.pages.loginPage)
   })
-
+  /**
+   * Test Case 4: Login User with incorrect email and password
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Signup / Login' button
+   * 5. Verify 'Login to your account' is visible
+   * 6. Enter incorrect email address
+   * 7. Click 'login' button
+   * 8. Verify error 'Your email or password is incorrect!' is visible
+   */
   test('failed to login with wrong email', async ({ page }) => {
     userData = await userData
     await expect(page).toHaveURL(siteMap.pages.loginPage)
@@ -85,7 +135,17 @@ test.describe('User CRUD Tests', () => {
     await expect(text).toContain('Your email or password is incorrect!')
     await expect(page).toHaveURL(siteMap.pages.loginPage)
   })
-
+  /**
+   * Test Case 5: Register User with existing email
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Signup / Login' button
+   * 5. Verify 'New User Signup!' is visible
+   * 6. Enter name and already registered email address
+   * 7. Click 'Signup' button
+   * 8. Verify error 'Email Address already exist!' is visible
+   */
   test('failed to register with existing email', async ({ page }) => {
     userData = await userData
     await expect(page).toHaveURL(siteMap.pages.loginPage)
@@ -95,7 +155,19 @@ test.describe('User CRUD Tests', () => {
     await expect(text).toContain('Email Address already exist!')
     await expect(page).toHaveURL(siteMap.pages.signUpPage)
   })
-
+  /**
+   * Test Case 6: Delete Account
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Signup / Login' button
+   * 5. Verify 'Login to your account' is visible
+   * 6. Enter correct email address and password
+   * 7. Click 'login' button
+   * 8. Verify that 'Logged in as username' is visible
+   * 9. Click 'Delete Account' button
+   * 10. Verify that 'ACCOUNT DELETED!' is visible  and click 'Continue' button
+   */
   test('should login/delete user', async ({ page }) => {
     userData = await userData
     await expect(page).toHaveURL(siteMap.pages.loginPage)
