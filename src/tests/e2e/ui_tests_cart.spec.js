@@ -4,11 +4,13 @@ import BasePage from '../../framework/pages/BasePage.js'
 import SetupTeardown from '../../framework/config/setupTeardown.js'
 import ProductsPage from '../../framework/pages/ProductsPage.js'
 import CartPage from '../../framework/pages/СartPage.js'
+import ProductsDetailPage from '../../framework/pages/ProductsDetailPage.js'
 
 const setupTeardown = new SetupTeardown()
 const basePage = new BasePage()
 const productsPage = new ProductsPage()
 const cartPage = new CartPage()
+const productsDetailPage = new ProductsDetailPage()
 
 test.describe('Cart Tests', () => {
   test.beforeEach(async ({ page }) => {
@@ -72,5 +74,38 @@ test.describe('Cart Tests', () => {
     for (let i = 0; i < cartProductsInfo1.length; i++) {
       expect(cartProductsInfo1[i]).toEqual(addedProductsInfo[i])
     }
+  })
+  /**
+   * Test Case 13: Verify Product quantity in Cart
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click 'View Product' for any product on home page
+   * 5. Verify product detail is opened
+   * 6. Increase quantity to 4
+   * 7. Click 'Add to cart' button
+   * 8. Click 'View Cart' button
+   * 9. Verify that product is displayed in cart page with exact quantity
+   */
+  test('Verify Product quantity in Cart', async ({ page }) => {
+    const value = 4
+    await page.click(basePage.selectors.productsBtn)
+    await expect(page).toHaveURL(siteMap.pages.productsPage)
+    await expect(page).toHaveTitle('Automation Exercise - All Products')
+    await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
+    await page.click(productsPage.selectors.viewProduct1Btn)
+    await expect(page).toHaveURL(siteMap.pages.product1DetailsPage)
+    await expect(page).toHaveTitle('Automation Exercise - Product Details')
+    await expect(page.locator(productsDetailPage.selectors.productName)).toBeVisible()
+    await expect(page.locator(productsDetailPage.selectors.category)).toBeVisible()
+    await expect(page.locator(productsDetailPage.selectors.price)).toBeVisible()
+    await expect(page.locator(productsDetailPage.selectors.availability)).toBeVisible()
+    await expect(page.locator(productsDetailPage.selectors.condition)).toBeVisible()
+    await expect(page.locator(productsDetailPage.selectors.brand)).toBeVisible()
+    await productsDetailPage.setInputValue({ page }, value)
+    await page.click(productsDetailPage.selectors.addToCartBtn)
+    await productsPage.clickContinueShopping({ page })
+    await page.click(productsPage.selectors.goToCartBtn)
+    expect(await page.$eval(cartPage.selectors.cartItemQuantity, (element) => element.textContent)).toBe(value.toString())
   })
 })
