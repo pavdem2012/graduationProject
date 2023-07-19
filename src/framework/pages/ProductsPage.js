@@ -13,7 +13,7 @@ export default class productsPage {
 
   async clickAddToCart ({ page }, productIndex) {
     const product = (await page.$$(this.selectors.productImageWrapper))[productIndex]
-    await product.hover({ timeout: 1000 })
+    await product.hover()
     await (await product.$(this.selectors.addToCartButton)).click()
     return product
   }
