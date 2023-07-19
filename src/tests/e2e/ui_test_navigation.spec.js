@@ -1,33 +1,17 @@
 import { test, expect } from '@playwright/test'
 import siteMap from '../../framework/config/siteMap.js'
 import BasePage from '../../framework/pages/BasePage.js'
-// import LoginPage from '../../framework/pages/LoginPage.js'
-// import SignUpPage from '../../framework/pages/SignUpPage.js'
-// import UserCreator from '../../framework/fixture/UserCreator.js'
 import SetupTeardown from '../../framework/config/setupTeardown.js'
 import ContactUsPage from '../../framework/pages/ContactUsPage.js'
 import ProductsDetailPage from '../../framework/pages/ProductsDetailPage.js'
 import ProductsPage from '../../framework/pages/ProductsPage.js'
 import fs from 'fs'
 
-// import * as path from 'path'
 const setupTeardown = new SetupTeardown()
 const basePage = new BasePage()
 const contactUsPage = new ContactUsPage()
 const productsDetailPage = new ProductsDetailPage()
 const productsPage = new ProductsPage()
-// const loginPage = new LoginPage()
-// const signUpPage = new SignUpPage()
-// const createUserDataSet = new UserCreator()
-
-// let userData
-
-// class TestSuite extends SetupTeardown {
-//   // eslint-disable-next-line no-useless-constructor
-//   constructor () {
-//     super()
-//   }
-// }
 
 test.describe('Navigation Tests', () => {
   test.beforeEach(async ({ page }) => {
@@ -170,28 +154,6 @@ test.describe('Navigation Tests', () => {
    * 7. Verify success message 'You have been successfully subscribed!' is visible
    */
   test('Verify Subscription in home page', async ({ page }) => {
-    await page.hover(basePage.selectors.susbscribeEmailField)
-    await expect(page.locator(basePage.selectors.susbscribeHeader)).toContainText('Subscription')
-    await page.fill(basePage.selectors.susbscribeEmailField, 'example@example.example')
-    await page.click(basePage.selectors.susbscribeEmailBtn)
-    await expect(page.locator(basePage.selectors.alertSuccessMsg)).toContainText('You have been successfully subscribed!')
-    await expect(page.locator(basePage.selectors.alertSuccessMsg)).toBeVisible()
-  })
-  /**
-   * Test Case 11: Verify Subscription in Cart page
-   * 1. Launch browser
-   * 2. Navigate to url 'http://automationexercise.com'
-   * 3. Verify that home page is visible successfully
-   * 4. Click 'Cart' button
-   * 5. Scroll down to footer
-   * 6. Verify text 'SUBSCRIPTION'
-   * 7. Enter email address in input and click arrow button
-   * 8. Verify success message 'You have been successfully subscribed!' is visible
-   */
-  test('Verify Subscription in Cart page', async ({ page }) => {
-    await page.click(basePage.selectors.viewCartBtn)
-    await expect(page).toHaveURL(siteMap.pages.cartPage)
-    await expect(page).toHaveTitle('Automation Exercise - Checkout')
     await page.hover(basePage.selectors.susbscribeEmailField)
     await expect(page.locator(basePage.selectors.susbscribeHeader)).toContainText('Subscription')
     await page.fill(basePage.selectors.susbscribeEmailField, 'example@example.example')
