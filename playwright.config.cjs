@@ -20,16 +20,16 @@ module.exports = defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 2,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 3 : undefined,
+  workers: process.env.CI ? undefined : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html', { outputFolder: 'reports/playwright' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    browserName: 'chromium',
-    // Другие опции запуска браузера...
-    launchOptions: {
-      args: [`--load-extension=${join(__dirname, 'src/framework/extensions/chrome')}`],
-    },
+    // browserName: 'chromium',
+    // // Другие опции запуска браузера...
+    // launchOptions: {
+    //   args: [`--load-extension=${join(__dirname, 'src/framework/extensions/chrome')}`],
+    // },
     // browserName: 'firefox',
     // // Другие опции запуска браузера...
     // launchOptions: {
@@ -56,7 +56,7 @@ module.exports = defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
       launchOptions: {
-        args: [`--load-extension=${join(__dirname, 'src/framework/extensions/chrome')}`],
+        args: [`--load-extension=${join(__dirname, 'src/framework/extensions/chrome/extension_5_8_0_0.crx')}`],
       }
     },
 
