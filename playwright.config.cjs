@@ -17,9 +17,9 @@ module.exports = defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 5 : 2,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 3 : 3,
+  workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html', { outputFolder: 'reports/playwright' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -31,17 +31,20 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
     //Capture Screenshot on failure
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure', // Записывать видео только при повторной попытке прогона теста в первый раз.
+    video: {
+      mode: 'retain-on-failure',
+      size: { width: 1920, height: 1080 } // Указываем желаемый размер видео.
+    },// Записывать видео только при повторной попытке прогона теста в первый раз.
     headless: true
   },
 
   /* Configure projects for major browsers */
   projects: [
 
-    // {
-    //   name: 'chromium',
-    //   use: { ...devices['Desktop Chrome'] }
-    // },
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] }
+    },
     //
     // {
     //   name: 'firefox',
