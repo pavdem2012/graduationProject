@@ -38,12 +38,12 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-      launchOptions: {
-        args: [`--load-extension=${join(__dirname, 'src/framework/extensions/chrome/extension_5_8_0_0.crx')}`],
-      },
-      // Функция для запуска Chromium с расширением
-      use: {
+      // use: { ...devices['Desktop Chrome'] },
+      // launchOptions: {
+      //   args: [`--load-extension=${join(__dirname, 'src/framework/extensions/chrome/extension_5_8_0_0.crx')}`],
+      // },
+      // // Функция для запуска Chromium с расширением
+      // use: {
         context: async ({ launchPersistentContext }) => {
           const pathToExtension = join(__dirname, 'src/framework/extensions/chrome/extension_5_8_0_0.crx');
           const context = await launchPersistentContext('', {
@@ -54,17 +54,17 @@ module.exports = defineConfig({
           });
           return context;
         },
-      },
+      // },
     },
 
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
-      launchOptions: {
-        args: [`--load-extension=${join(__dirname, 'src/framework/extensions/firefox/adblock_for_firefox-5.4.2.xpi')}`],
-      },
-      // Функция для запуска Chromium с расширением
-      use: {
+      // launchOptions: {
+      //   args: [`--load-extension=${join(__dirname, 'src/framework/extensions/firefox/adblock_for_firefox-5.4.2.xpi')}`],
+      // },
+      // // Функция для запуска Firefox с расширением
+      // use: {
         context: async ({ launchPersistentContext }) => {
           const pathToExtension = join(__dirname, 'src/framework/extensions/firefox/adblock_for_firefox-5.4.2.xpi');
           const context = await launchPersistentContext('', {
@@ -75,11 +75,11 @@ module.exports = defineConfig({
           });
           return context;
         },
-      },
+      // },
     },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] }
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] }
+    // },
   ],
 });
