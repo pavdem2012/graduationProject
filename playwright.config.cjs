@@ -4,15 +4,15 @@ module.exports = defineConfig({
     testDir: './src/tests/e2e',
     fullyParallel: false,
     forbidOnly: !!process.env.CI,
-    retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 3 : 3,
+    retries: process.env.CI ? 2 : 2,
+    workers: process.env.CI ? 3 : undefined,
     reporter: [['html', { outputFolder: 'reports/playwright' }]],
     use: {
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
         contextOptions: {
             request: async (route) => {
-                if (route.url().includes('#google_vignette')) {
+                if (route.url().includes('google_vignette')) {
                     console.log('Blocked request:', route.url());
                     await route.abort();
                 } else {
@@ -29,50 +29,20 @@ module.exports = defineConfig({
                 browserName: 'chromium',
             },
         },
-        // {
-        //     name: 'firefox',
-        //     use: {
-        //         ...devices['Desktop Firefox'],
-        //         browserName: 'firefox',
-        //         contextOptions: {
-        //             routes: [
-        //                 {
-        //                     // Перехватываем запросы содержащие /#google_vignette в любом месте урла
-        //                     url: '**/*/#google_vignette*',
-        //                     handler: async (route, request) => {
-        //                         // Блокируем запрос, отправляя пустой ответ с кодом 200
-        //                         await route.fulfill({
-        //                             status: 200,
-        //                             body: '',
-        //                         });
-        //                     },
-        //                 },
-        //             ],
-        //         },
-        //     },
-        // },
-        // {
-        //     name: 'webkit',
-        //     use: {
-        //         ...devices['Desktop Safari'],
-        //         browserName: 'webkit',
-        //         contextOptions: {
-        //             routes: [
-        //                 {
-        //                     // Перехватываем запросы содержащие /#google_vignette в любом месте урла
-        //                     url: '**/*/#google_vignette*',
-        //                     handler: async (route, request) => {
-        //                         // Блокируем запрос, отправляя пустой ответ с кодом 200
-        //                         await route.fulfill({
-        //                             status: 200,
-        //                             body: '',
-        //                         });
-        //                     },
-        //                 },
-        //             ],
-        //         },
-        //     },
-        // },
+        {
+            name: 'firefox',
+            use: {
+                ...devices['Desktop Firefox'],
+                browserName: 'firefox',
+            },
+        },
+        {
+            name: 'webkit',
+            use: {
+                ...devices['Desktop Safari'],
+                browserName: 'webkit'
+            },
+        },
         // ... другие проекты ...
     ],
 });

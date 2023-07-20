@@ -11,7 +11,7 @@ const basePage = new BasePage()
 const productsPage = new ProductsPage()
 const cartPage = new CartPage()
 const productsDetailPage = new ProductsDetailPage()
-test.use({ javaScriptEnabled: false })
+
 test.describe('Cart Tests', () => {
   test.beforeEach(async ({ page }) => {
     await setupTeardown.setupNavTests({ page })
@@ -56,7 +56,6 @@ test.describe('Cart Tests', () => {
      */
   test('Verify Add Products in Cart', async ({ page }) => {
     await page.click(basePage.selectors.productsBtn)
-    console.log(page.url())
     await expect(page).toHaveURL(siteMap.pages.productsPage)
     await expect(page).toHaveTitle('Automation Exercise - All Products')
     const addedProductsInfo = []
@@ -91,7 +90,6 @@ test.describe('Cart Tests', () => {
   test('Verify Product quantity in Cart', async ({ page }) => {
     const value = 4
     await page.click(basePage.selectors.productsBtn)
-    console.log(page.url())
     await expect(page).toHaveURL(siteMap.pages.productsPage)
     await expect(page).toHaveTitle('Automation Exercise - All Products')
     await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()

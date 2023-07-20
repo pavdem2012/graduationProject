@@ -60,7 +60,6 @@ test.describe('Navigation Tests', () => {
    */
   test('Verify Test Cases Page Navigation', async ({ page }) => {
     await page.click(basePage.selectors.testCasesBtn)
-    console.log(page.url())
     await expect(page).toHaveURL(siteMap.pages.testCasesPage)
     await expect(page).toHaveTitle('Automation Practice Website for UI Testing - Test Cases')
   })
@@ -108,7 +107,6 @@ test.describe('Navigation Tests', () => {
   for (const searchProduct of searchProducts) {
     test(`Test Search Product "${searchProduct}"`, async ({ page }) => {
       await page.click(basePage.selectors.productsBtn)
-      console.log(page.url())
       await expect(page).toHaveURL(siteMap.pages.productsPage)
       await expect(page).toHaveTitle('Automation Exercise - All Products')
       await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
@@ -125,7 +123,6 @@ test.describe('Navigation Tests', () => {
     })
   }
   test('Search Product test', async ({ page }) => {
-    console.log(page.url())
     await page.click(basePage.selectors.productsBtn)
     await expect(page).toHaveURL(siteMap.pages.productsPage)
     await expect(page).toHaveTitle('Automation Exercise - All Products')
