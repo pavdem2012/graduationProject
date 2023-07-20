@@ -32,7 +32,7 @@ module.exports = defineConfig({
     //Capture Screenshot on failure
     screenshot: 'only-on-failure'
   },
-
+  headless: true,
   /* Configure projects for major browsers */
   projects: [
 
