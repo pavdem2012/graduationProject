@@ -19,7 +19,7 @@ module.exports = defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 2,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 6 : undefined,
+  workers: process.env.CI ? 3 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html', { outputFolder: 'reports/playwright' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -57,10 +57,26 @@ module.exports = defineConfig({
       },
     },
 
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] }
-    // },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+      launchOptions: {
+        args: [`--load-extension=${join(__dirname, 'src/framework/extensions/firefox/adblock_for_firefox-5.4.2.xpi')}`],
+      },
+      // Функция для запуска Chromium с расширением
+      use: {
+        context: async ({ launchPersistentContext }) => {
+          const pathToExtension = join(__dirname, 'src/framework/extensions/firefox/adblock_for_firefox-5.4.2.xpi');
+          const context = await launchPersistentContext('', {
+            headless: false,
+            args: [
+              `--load-extension=${pathToExtension}`,
+            ],
+          });
+          return context;
+        },
+      },
+    },
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] }
