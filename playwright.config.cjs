@@ -12,7 +12,7 @@ module.exports = defineConfig({
         screenshot: 'only-on-failure',
         contextOptions: {
             request: async (route) => {
-                if (route.url().includes('google_vignette')) {
+                if (route.url().includes('/#google_vignette')) {
                     console.log('Blocked request:', route.url());
                     await route.abort();
                 } else {
@@ -27,6 +27,7 @@ module.exports = defineConfig({
             use: {
                 ...devices['Desktop Chrome'],
                 browserName: 'chromium',
+                contextOptions: this.contextOptions
             },
         },
         {
@@ -34,13 +35,15 @@ module.exports = defineConfig({
             use: {
                 ...devices['Desktop Firefox'],
                 browserName: 'firefox',
+                contextOptions: this.contextOptions
             },
         },
         {
             name: 'webkit',
             use: {
                 ...devices['Desktop Safari'],
-                browserName: 'webkit'
+                browserName: 'webkit',
+                contextOptions: this.contextOptions
             },
         },
         // ... другие проекты ...
