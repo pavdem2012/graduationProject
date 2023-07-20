@@ -22,7 +22,7 @@ module.exports = defineConfig({
                         {
                             // Перехватываем запросы содержащие /#google_vignette в любом месте урла
                             url: '**/*/#google_vignette*',
-                            handler: async (route) => {
+                            handler: async (route, request) => {
                                 // Блокируем запрос
                                 await route.abort();
                             },
@@ -41,7 +41,7 @@ module.exports = defineConfig({
                         {
                             // Перехватываем запросы содержащие /#google_vignette в любом месте урла
                             url: '**/*/#google_vignette*',
-                            handler: async (route) => {
+                            handler: async (route, request) => {
                                 // Блокируем запрос
                                 await route.abort();
                             },
@@ -60,7 +60,7 @@ module.exports = defineConfig({
                         {
                             // Перехватываем запросы содержащие /#google_vignette в любом месте урла
                             url: '**/*/#google_vignette*',
-                            handler: async (route) => {
+                            handler: async (route, request) => {
                                 // Блокируем запрос
                                 await route.abort();
                             },
