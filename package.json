@@ -9,7 +9,7 @@
     "test:ui": "playwright test --ui",
     "test:ui:ci:1worker": "npx playwright test --workers=1",
     "test:ui:headed": "npx playwright test --headed",
-    "test:ui:ci": "npx playwright test --workers=3",
+    "test:ui:ci": "npx playwright test --workers=3 --headed",
     "lint": "eslint --ext .js --ignore-path .gitignore --cache --fix src",
     "lint:ci": "eslint --ext .js --ignore-path .gitignore src/tests"
   },
