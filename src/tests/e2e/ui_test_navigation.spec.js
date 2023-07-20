@@ -108,6 +108,7 @@ test.describe('Navigation Tests', () => {
   for (const searchProduct of searchProducts) {
     test(`Test Search Product "${searchProduct}"`, async ({ page }) => {
       await page.click(basePage.selectors.productsBtn)
+      console.log(page.url())
       await expect(page).toHaveURL(siteMap.pages.productsPage)
       await expect(page).toHaveTitle('Automation Exercise - All Products')
       await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
@@ -124,11 +125,7 @@ test.describe('Navigation Tests', () => {
     })
   }
   test('Search Product test', async ({ page, context }) => {
-    await context.route('**/*', (request) => {
-      request.request().url().startsWith('https://googleads.')
-        ? request.abort()
-        : request.continue()
-    })
+    console.log(page.url())
     await page.click(basePage.selectors.productsBtn)
     await expect(page).toHaveURL(siteMap.pages.productsPage)
     await expect(page).toHaveTitle('Automation Exercise - All Products')

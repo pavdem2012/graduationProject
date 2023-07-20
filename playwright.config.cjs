@@ -10,6 +10,16 @@ module.exports = defineConfig({
     use: {
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
+        contextOptions: {
+            request: async (route) => {
+                if (route.url().includes('#google_vignette')) {
+                    console.log('Blocked request:', route.url());
+                    await route.abort();
+                } else {
+                    await route.continue();
+                }
+            },
+        },
     },
     projects: [
         {
@@ -17,21 +27,6 @@ module.exports = defineConfig({
             use: {
                 ...devices['Desktop Chrome'],
                 browserName: 'chromium',
-                contextOptions: {
-                    routes: [
-                        {
-                            // Перехватываем запросы содержащие /#google_vignette в любом месте урла
-                            url: '**/*#google_vignette*',
-                            handler: async (route, request) => {
-                                // Блокируем запрос, отправляя пустой ответ с кодом 200
-                                await route.fulfill({
-                                    status: 200,
-                                    body: '',
-                                });
-                            },
-                        },
-                    ],
-                },
             },
         },
         // {
