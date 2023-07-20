@@ -23,8 +23,11 @@ module.exports = defineConfig({
                             // Перехватываем запросы содержащие /#google_vignette в любом месте урла
                             url: '**/*/#google_vignette*',
                             handler: async (route, request) => {
-                                // Блокируем запрос
-                                await route.abort();
+                                // Блокируем запрос, отправляя пустой ответ с кодом 200
+                                await route.fulfill({
+                                    status: 200,
+                                    body: '',
+                                });
                             },
                         },
                     ],
@@ -42,8 +45,11 @@ module.exports = defineConfig({
                             // Перехватываем запросы содержащие /#google_vignette в любом месте урла
                             url: '**/*/#google_vignette*',
                             handler: async (route, request) => {
-                                // Блокируем запрос
-                                await route.abort();
+                                // Блокируем запрос, отправляя пустой ответ с кодом 200
+                                await route.fulfill({
+                                    status: 200,
+                                    body: '',
+                                });
                             },
                         },
                     ],
@@ -61,8 +67,11 @@ module.exports = defineConfig({
                             // Перехватываем запросы содержащие /#google_vignette в любом месте урла
                             url: '**/*/#google_vignette*',
                             handler: async (route, request) => {
-                                // Блокируем запрос
-                                await route.abort();
+                                // Блокируем запрос, отправляя пустой ответ с кодом 200
+                                await route.fulfill({
+                                    status: 200,
+                                    body: '',
+                                });
                             },
                         },
                     ],
