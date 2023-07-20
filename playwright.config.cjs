@@ -21,7 +21,7 @@ module.exports = defineConfig({
                     routes: [
                         {
                             // Перехватываем запросы содержащие /#google_vignette в любом месте урла
-                            url: '**/*/#google_vignette*',
+                            url: '**/*#google_vignette*',
                             handler: async (route, request) => {
                                 // Блокируем запрос, отправляя пустой ответ с кодом 200
                                 await route.fulfill({
