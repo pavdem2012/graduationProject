@@ -14,8 +14,13 @@ const productsDetailPage = new ProductsDetailPage()
 const productsPage = new ProductsPage()
 
 test.describe('Navigation Tests', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, context }) => {
     await setupTeardown.setupNavTests({ page })
+    await context.route('**/*', (request) => {
+      request.request().url().endsWith('/#google_vignette')
+        ? request.abort()
+        : request.continue()
+    })
   })
   test.afterEach(async ({ page }) => {
     await setupTeardown.teardownTest({ page })

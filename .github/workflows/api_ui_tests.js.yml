@@ -53,7 +53,7 @@ jobs:
     - name: Install Browsers for Playwright ui_tests
       run: npx playwright install --with-deps
     - name: Run Playwright ui_tests
-      run: npx playwright test
+      run: npm run test:ui:ci
       continue-on-error: true
     - name: Upload ui_tests artifacts
       continue-on-error: true
