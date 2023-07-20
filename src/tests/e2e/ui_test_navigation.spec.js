@@ -6,6 +6,7 @@ import ContactUsPage from '../../framework/pages/ContactUsPage.js'
 import ProductsDetailPage from '../../framework/pages/ProductsDetailPage.js'
 import ProductsPage from '../../framework/pages/ProductsPage.js'
 import fs from 'fs'
+test.use({ javaScriptEnabled: false })
 
 const setupTeardown = new SetupTeardown()
 const basePage = new BasePage()
@@ -124,7 +125,7 @@ test.describe('Navigation Tests', () => {
       }
     })
   }
-  test('Search Product test', async ({ page, context }) => {
+  test('Search Product test', async ({ page }) => {
     console.log(page.url())
     await page.click(basePage.selectors.productsBtn)
     await expect(page).toHaveURL(siteMap.pages.productsPage)
