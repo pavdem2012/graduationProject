@@ -30,6 +30,11 @@ module.exports = defineConfig({
     launchOptions: {
       args: [`--load-extension=${join(__dirname, 'src/framework/extensions/chrome')}`],
     },
+    browserName: 'firefox',
+    // Другие опции запуска браузера...
+    launchOptions: {
+      args: [`--load-extension=${join(__dirname, 'src/framework/extensions/firefox')}`],
+    },
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
@@ -51,11 +56,11 @@ module.exports = defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] }
     },
-    //
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] }
-    // },
+
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] }
+    },
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] }
