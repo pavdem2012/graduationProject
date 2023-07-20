@@ -6,7 +6,7 @@ module.exports = defineConfig({
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 2,
-  workers: process.env.CI ? 3 : undefined,
+  workers: process.env.CI ? 2 : undefined,
   reporter: [['html', { outputFolder: 'reports/playwright' }]],
   use: {
     trace: 'on-first-retry',
