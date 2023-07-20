@@ -11,7 +11,7 @@ const basePage = new BasePage()
 const productsPage = new ProductsPage()
 const cartPage = new CartPage()
 const productsDetailPage = new ProductsDetailPage()
-
+test.use({ javaScriptEnabled: false })
 test.describe('Cart Tests', () => {
   test.beforeEach(async ({ page }) => {
     await setupTeardown.setupNavTests({ page })
