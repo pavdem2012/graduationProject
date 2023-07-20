@@ -60,11 +60,11 @@ module.exports = defineConfig({
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
-      // launchOptions: {
-      //   args: [`--load-extension=${join(__dirname, 'src/framework/extensions/firefox/adblock_for_firefox-5.4.2.xpi')}`],
-      // },
-      // // Функция для запуска Firefox с расширением
-      // use: {
+      launchOptions: {
+        args: [`--load-extension=${join(__dirname, 'src/framework/extensions/firefox/adblock_for_firefox-5.4.2.xpi')}`],
+      },
+      // Функция для запуска Firefox с расширением
+      use: {
         context: async ({ launchPersistentContext }) => {
           const pathToExtension = join(__dirname, 'src/framework/extensions/firefox/adblock_for_firefox-5.4.2.xpi');
           const context = await launchPersistentContext('', {
@@ -75,7 +75,7 @@ module.exports = defineConfig({
           });
           return context;
         },
-      // },
+      },
     },
     // {
     //   name: 'webkit',
