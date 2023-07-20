@@ -1,5 +1,6 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test')
+const {join} = require("path");
 
 /**
  * Read environment variables from file.
@@ -24,6 +25,11 @@ module.exports = defineConfig({
   reporter: [['html', { outputFolder: 'reports/playwright' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    browserName: 'chromium',
+    // Другие опции запуска браузера...
+    launchOptions: {
+      args: [`--load-extension=${join(__dirname, 'src/framework/extensions/chrome')}`],
+    },
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
@@ -31,10 +37,10 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
     //Capture Screenshot on failure
     screenshot: 'only-on-failure',
-    video: {
-      mode: 'retain-on-failure',
-      size: { width: 1920, height: 1080 } // Указываем желаемый размер видео.
-    },// Записывать видео только при повторной попытке прогона теста в первый раз.
+    // video: {
+    //   mode: 'retain-on-failure',
+    //   size: { width: 1920, height: 1080 } // Указываем желаемый размер видео.
+    // },// Записывать видео только при повторной попытке прогона теста в первый раз.
     headless: true
   },
 
