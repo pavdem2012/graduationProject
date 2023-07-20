@@ -3,6 +3,7 @@ const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
     testDir: './src/tests/e2e',
     fullyParallel: false,
+
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 2,
     workers: process.env.CI ? 3 : undefined,
