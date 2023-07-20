@@ -60,6 +60,7 @@ test.describe('Navigation Tests', () => {
    */
   test('Verify Test Cases Page Navigation', async ({ page }) => {
     await page.click(basePage.selectors.testCasesBtn)
+    console.log(page.url())
     await expect(page).toHaveURL(siteMap.pages.testCasesPage)
     await expect(page).toHaveTitle('Automation Practice Website for UI Testing - Test Cases')
   })

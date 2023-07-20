@@ -34,50 +34,50 @@ module.exports = defineConfig({
                 },
             },
         },
-        {
-            name: 'firefox',
-            use: {
-                ...devices['Desktop Firefox'],
-                browserName: 'firefox',
-                contextOptions: {
-                    routes: [
-                        {
-                            // Перехватываем запросы содержащие /#google_vignette в любом месте урла
-                            url: '**/*/#google_vignette*',
-                            handler: async (route, request) => {
-                                // Блокируем запрос, отправляя пустой ответ с кодом 200
-                                await route.fulfill({
-                                    status: 200,
-                                    body: '',
-                                });
-                            },
-                        },
-                    ],
-                },
-            },
-        },
-        {
-            name: 'webkit',
-            use: {
-                ...devices['Desktop Safari'],
-                browserName: 'webkit',
-                contextOptions: {
-                    routes: [
-                        {
-                            // Перехватываем запросы содержащие /#google_vignette в любом месте урла
-                            url: '**/*/#google_vignette*',
-                            handler: async (route, request) => {
-                                // Блокируем запрос, отправляя пустой ответ с кодом 200
-                                await route.fulfill({
-                                    status: 200,
-                                    body: '',
-                                });
-                            },
-                        },
-                    ],
-                },
-            },
-        },
+        // {
+        //     name: 'firefox',
+        //     use: {
+        //         ...devices['Desktop Firefox'],
+        //         browserName: 'firefox',
+        //         contextOptions: {
+        //             routes: [
+        //                 {
+        //                     // Перехватываем запросы содержащие /#google_vignette в любом месте урла
+        //                     url: '**/*/#google_vignette*',
+        //                     handler: async (route, request) => {
+        //                         // Блокируем запрос, отправляя пустой ответ с кодом 200
+        //                         await route.fulfill({
+        //                             status: 200,
+        //                             body: '',
+        //                         });
+        //                     },
+        //                 },
+        //             ],
+        //         },
+        //     },
+        // },
+        // {
+        //     name: 'webkit',
+        //     use: {
+        //         ...devices['Desktop Safari'],
+        //         browserName: 'webkit',
+        //         contextOptions: {
+        //             routes: [
+        //                 {
+        //                     // Перехватываем запросы содержащие /#google_vignette в любом месте урла
+        //                     url: '**/*/#google_vignette*',
+        //                     handler: async (route, request) => {
+        //                         // Блокируем запрос, отправляя пустой ответ с кодом 200
+        //                         await route.fulfill({
+        //                             status: 200,
+        //                             body: '',
+        //                         });
+        //                     },
+        //                 },
+        //             ],
+        //         },
+        //     },
+        // },
         // ... другие проекты ...
     ],
 });
