@@ -31,7 +31,7 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
     //Capture Screenshot on failure
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure', // Записывать видео только при повторной попытке прогона теста в первый раз.
+    // video: 'retain-on-failure', // Записывать видео только при повторной попытке прогона теста в первый раз.
     headless: true
   },
 
