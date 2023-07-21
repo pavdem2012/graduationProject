@@ -102,7 +102,7 @@ test.describe('Navigation Tests', () => {
    * 8. Verify all the products related to search are visible
    * @type {string[]}
    */
-  // Не стабильное решение для многопотока в разных браузерах. Очень мешает google vignette
+  // Не стабильное решение для многопотока в разных браузерах. Очень мешает google vignette (вроде решено)
   const searchProducts = ['Winter Top', 'Men Tshirt', 'Blue Cotton Indie Mickey Dress', 'Sleeves Printed Top - White', 'Grunt Blue Slim Fit Jeans', 'Rust Red Linen Saree']
   for (const searchProduct of searchProducts) {
     test(`Test Search Product "${searchProduct}"`, async ({ page }) => {
@@ -120,24 +120,27 @@ test.describe('Navigation Tests', () => {
         const isVisible = await product.isVisible()
         expect(isVisible).toBe(true)
       }
+      expect((await (await page.$(productsPage.selectors.miniCartProductName)).innerText()).trim()).toEqual(searchProduct)
     })
   }
-  test('Search Product test', async ({ page }) => {
-    await page.click(basePage.selectors.productsBtn)
-    await expect(page).toHaveURL(siteMap.pages.productsPage)
-    await expect(page).toHaveTitle('Automation Exercise - All Products')
-    await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
-    await page.fill(productsPage.selectors.searchField, 'Winter Top')
-    await page.waitForLoadState('domcontentloaded')
-    await page.click(productsPage.selectors.searchBtn)
-    await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
-    await expect(page.locator(productsPage.selectors.productsList)).toContainText('Searched Products')
-    const products = await page.$$(productsPage.selectors.productItem)
-    for (const product of products) {
-      const isVisible = await product.isVisible()
-      expect(isVisible).toBe(true)
-    }
-  })
+  // тест для отладки механизма поиска
+  // test('Search Product test', async ({ page }) => {
+  //   await page.click(basePage.selectors.productsBtn)
+  //   await expect(page).toHaveURL(siteMap.pages.productsPage)
+  //   await expect(page).toHaveTitle('Automation Exercise - All Products')
+  //   await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
+  //   await page.fill(productsPage.selectors.searchField, 'Winter Top')
+  //   await page.waitForLoadState('domcontentloaded')
+  //   await page.click(productsPage.selectors.searchBtn)
+  //   await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
+  //   await expect(page.locator(productsPage.selectors.productsList)).toContainText('Searched Products')
+  //   const products = await page.$$(productsPage.selectors.productItem)
+  //   for (const product of products) {
+  //     const isVisible = await product.isVisible()
+  //     expect(isVisible).toBe(true)
+  //   }
+  //   expect((await (await page.$(productsPage.selectors.miniCartProductName)).innerText()).trim()).toEqual('Winter Top')
+  // })
   /**
    * Test Case 10: Verify Subscription in home page
    * 1. Launch browser

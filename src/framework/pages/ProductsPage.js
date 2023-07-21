@@ -7,7 +7,8 @@ export default class productsPage {
     productItem: 'div.product-image-wrapper',
     addToCartButton: '.add-to-cart',
     continueShoppingBtn: 'button.btn-success',
-    goToCartBtn: 'ul.nav>li>a>i.fa-shopping-cart'
+    goToCartBtn: 'ul.nav>li>a>i.fa-shopping-cart',
+    miniCartProductName: 'div.productinfo p'
   }
 
   async clickAddToCart ({ page }, productIndex) {
