@@ -6,7 +6,7 @@ name: Jest_API & Playwright_UI test
 on:
   workflow_dispatch:
   push:
-    branches: [ "master", "develop", "develop_api" ]
+    branches:
   pull_request:
     branches: [ "master" ]
 
