@@ -1,5 +1,5 @@
-// @ts-check
-const { defineConfig, devices } = require('@playwright/test')
+const { defineConfig, devices } = require('@playwright/test');
+const { join } = require('path');
 
 /**
  * Read environment variables from file.
@@ -17,9 +17,9 @@ module.exports = defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 3 : 3,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 3 : undefined,
+  workers: process.env.CI ? 2 : 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html', { outputFolder: 'reports/playwright' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -28,53 +28,57 @@ module.exports = defineConfig({
     // baseURL: 'http://127.0.0.1:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-    //Capture Screenshot on failure
-    screenshot: 'only-on-failure'
+    trace: 'retain-on-failure',
+    // Capture Screenshot on failure
+    screenshot: 'retain-on-failure',
+    headless: true,
   },
 
   /* Configure projects for major browsers */
   projects: [
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] }
+    // },
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
+      use: { ...devices['Desktop Chrome'] },
+      launchOptions: {
+        args: [`--load-extension=${join(__dirname, 'src/framework/extensions/chrome/extension_5_8_0_0.crx')}`],
+      },
+      // Функция для запуска Chromium с расширением
+      use: {
+        context: async ({ launchPersistentContext }) => {
+          const pathToExtension = join(__dirname, 'src/framework/extensions/chrome/extension_5_8_0_0.crx');
+          const context = await launchPersistentContext('', {
+            headless: false,
+            args: [
+              `--load-extension=${pathToExtension}`,
+            ],
+          });
+          return context;
+        },
+      },
     },
-
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
+      use: { ...devices['Desktop Firefox'] },
+      launchOptions: {
+        args: [`--load-extension=${join(__dirname, 'src/framework/extensions/firefox/adblock_for_firefox-5.4.2.xpi')}`],
+      },
+      // Функция для запуска Firefox с расширением
+      use: {
+        context: async ({ launchPersistentContext }) => {
+          const pathToExtension = join(__dirname, 'src/framework/extensions/firefox/adblock_for_firefox-5.4.2.xpi');
+          const context = await launchPersistentContext('', {
+            headless: false,
+            args: [
+              `--load-extension=${pathToExtension}`,
+            ],
+          });
+          return context;
+        },
+      },
     },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] }
-    },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    //  {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ]
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
-})
+  ],
+});

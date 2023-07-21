@@ -1,4 +1,4 @@
-export default class SignUpPage {
+export default class signUpPage {
   static selectors = {
     accInfoBlock: 'div[class="login-form"]',
     titleRad: '.radio-inline',
@@ -29,26 +29,26 @@ export default class SignUpPage {
   functions = {
 
     async fillAccForm (page, resolvedUserData) {
-      await page.click(SignUpPage.selectors.titleRad)
-      await page.type(SignUpPage.selectors.passRegField, resolvedUserData.userPass)
-      await page.click(SignUpPage.selectors.dateRegField)
-      await page.type(SignUpPage.selectors.dateRegField, '16')
-      await page.type(SignUpPage.selectors.monthRegField, 'March')
-      await page.type(SignUpPage.selectors.yearRegField, '1975')
-      await page.click(SignUpPage.selectors.newsCheckBox)
-      await page.click(SignUpPage.selectors.specCheckBox)
-      await page.type(SignUpPage.selectors.firstNameField, resolvedUserData.firstName)
-      await page.type(SignUpPage.selectors.lastNameField, resolvedUserData.lastName)
-      await page.type(SignUpPage.selectors.companyField, resolvedUserData.companyName)
-      await page.type(SignUpPage.selectors.addressField, resolvedUserData.address)
-      await page.type(SignUpPage.selectors.address2Field, resolvedUserData.secAddress)
-      await page.selectOption(SignUpPage.selectors.countryField, 'Australia')
-      await page.type(SignUpPage.selectors.stateField, resolvedUserData.state)
-      await page.type(SignUpPage.selectors.cityField, resolvedUserData.city)
-      await page.type(SignUpPage.selectors.zipCodeField, resolvedUserData.zipCode)
-      await page.type(SignUpPage.selectors.mobileNumField, resolvedUserData.phone)
+      await page.click(signUpPage.selectors.titleRad)
+      await page.type(signUpPage.selectors.passRegField, resolvedUserData.userPass)
+      await page.click(signUpPage.selectors.dateRegField)
+      await page.type(signUpPage.selectors.dateRegField, '16')
+      await page.type(signUpPage.selectors.monthRegField, 'March')
+      await page.type(signUpPage.selectors.yearRegField, '1975')
+      await page.click(signUpPage.selectors.newsCheckBox)
+      await page.click(signUpPage.selectors.specCheckBox)
+      await page.type(signUpPage.selectors.firstNameField, resolvedUserData.firstName)
+      await page.type(signUpPage.selectors.lastNameField, resolvedUserData.lastName)
+      await page.type(signUpPage.selectors.companyField, resolvedUserData.companyName)
+      await page.type(signUpPage.selectors.addressField, resolvedUserData.address)
+      await page.type(signUpPage.selectors.address2Field, resolvedUserData.secAddress)
+      await page.selectOption(signUpPage.selectors.countryField, 'Australia')
+      await page.type(signUpPage.selectors.stateField, resolvedUserData.state)
+      await page.type(signUpPage.selectors.cityField, resolvedUserData.city)
+      await page.type(signUpPage.selectors.zipCodeField, resolvedUserData.zipCode)
+      await page.type(signUpPage.selectors.mobileNumField, resolvedUserData.phone)
       await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
-      await page.click(SignUpPage.selectors.createAccBtn)
+      await page.click(signUpPage.selectors.createAccBtn)
     }
   }
 }

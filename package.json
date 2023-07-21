@@ -9,7 +9,7 @@
     "test:ui": "playwright test --ui",
     "test:ui:ci:1worker": "npx playwright test --workers=1",
     "test:ui:headed": "npx playwright test --headed",
-    "test:ui:ci": "npx playwright test --workers=3",
+    "test:ui:ci": "npx playwright test ",
     "lint": "eslint --ext .js --ignore-path .gitignore --cache --fix src",
     "lint:ci": "eslint --ext .js --ignore-path .gitignore src/tests"
   },
@@ -20,7 +20,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.19.6",
     "@babel/preset-env": "^7.20.2",
     "@faker-js/faker": "^8.0.2",
-    "@playwright/test": "^1.35.1",
+    "@playwright/test": "^1.36.1",
     "ajv": "^8.12.0",
     "axios": "^1.4.0",
     "babel": "^6.23.0",
