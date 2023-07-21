@@ -8,46 +8,51 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-image: url('background_picture .png');
+            background-color:aquamarine; 
             background-size: cover;
             background-repeat: no-repeat;
-            /*opacity: 0.8;*/
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            z-index: 0;
         }
 
         .report-container {
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: space-between;
+            height: 100%;
             border: 2px solid #333;
             border-radius: 10px;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color:#fafafa;
+            margin: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .report-link-container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            margin-top: 20px;
         }
 
         h1 {
             color: #333;
             font-size: 400%;
-            margin-top: 0;
+            margin: 0;
             text-shadow: 2px 2px 2px #FF0000;
         }
 
-        .report-link-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            /*background-color: rgba(255, 255, 255, 0.8);*/
-            padding: 20px;
-            border-radius: 10px;
-        }
-
         .report-button {
-            display: inline-block;
-            margin-bottom: 30px;
             color: #FFF;
             background-color: #007bff;
             font-weight: bold;
@@ -65,16 +70,32 @@
         .report-button:not(:hover ~ .report-button) {
             font-size: 250%;
         }
+
+        .image-container {
+            max-width: 71%; 
+            margin: 20px 0;
+            border: 1px solid #333;
+            /* border-radius: 10px; */
+            overflow: hidden;
+            box-sizing:content-box;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
-<div class="report-container">
-    <h1>Test Reports for</h1>
-    <h1>AutomationExercise site</h1>
-    <div class="report-link-container">
-        <a class="report-button" href="jest/index.html">Jest Report for API tests</a>
-        <a class="report-button" href="playwright/index.html">Playwright Report for UI tests</a>
+    <div class="report-container">
+        <h1>Test Reports for AutomationExercise site</h1>
+        <div class="image-container">
+            <img src="background_picture.jpeg" alt="Middle Image">
+        </div>
+        <div class="report-link-container">
+            <a class="report-button" href="jest/index.html">Jest Report for API tests</a>
+            <a class="report-button" href="playwright/index.html">Playwright Report for UI tests</a>
+        </div>
     </div>
-</div>
 </body>
 </html>
