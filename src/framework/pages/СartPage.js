@@ -5,7 +5,10 @@ export default class CartPage {
     cartItemPrice: 'td.cart_price p',
     cartItemQuantity: 'td.cart_quantity button',
     cartItemTotal: 'td.cart_total p.cart_total_price',
-    cartProduct: 'td.cart_product'
+    cartProduct: 'td.cart_product',
+    removeProductBtn: 'a.cart_quantity_delete>i',
+    emptyCartElem: '#empty_cart',
+    emptyCartText: '#empty_cart > p.text-center > b'
   }
 
   async getCartItemInfo (cartItem) {
@@ -25,5 +28,10 @@ export default class CartPage {
       cartProductsInfo.push(cartItemInfo)
     }
     return cartProductsInfo
+  }
+
+  async clickRemoveButtonAndWaitForLoad ({ page }) {
+    await page.click(this.selectors.removeProductBtn)
+    await page.waitForLoadState('networkidle')
   }
 }

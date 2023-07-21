@@ -5,14 +5,13 @@ export default class productsPage {
     searchField: 'input[name="search"]',
     searchBtn: 'button.btn-lg',
     productItem: 'div.product-image-wrapper',
-    productImageWrapper: '.product-image-wrapper',
     addToCartButton: '.add-to-cart',
     continueShoppingBtn: 'button.btn-success',
     goToCartBtn: 'ul.nav>li>a>i.fa-shopping-cart'
   }
 
   async clickAddToCart ({ page }, productIndex) {
-    const product = (await page.$$(this.selectors.productImageWrapper))[productIndex]
+    const product = (await page.$$(this.selectors.productItem))[productIndex]
     await product.hover()
     await (await product.$(this.selectors.addToCartButton)).click()
     return product

@@ -12,6 +12,7 @@ const productsPage = new ProductsPage()
 const cartPage = new CartPage()
 const productsDetailPage = new ProductsDetailPage()
 
+let cartItems
 test.describe('Cart Tests', () => {
   test.beforeEach(async ({ page }) => {
     await setupTeardown.setupNavTests({ page })
@@ -68,7 +69,7 @@ test.describe('Cart Tests', () => {
     addedProductsInfo.push(secondProductInfo)
     await productsPage.clickContinueShopping({ page })
     await page.click(productsPage.selectors.goToCartBtn)
-    const cartItems = await page.$$(cartPage.selectors.cartProduct)
+    cartItems = await page.$$(cartPage.selectors.cartProduct)
     expect(cartItems.length).toBe(2)
     const cartProductsInfo1 = await cartPage.verifyCartProducts({ page })
     for (let i = 0; i < cartProductsInfo1.length; i++) {
@@ -107,5 +108,34 @@ test.describe('Cart Tests', () => {
     await productsPage.clickContinueShopping({ page })
     await page.click(productsPage.selectors.goToCartBtn)
     expect(await page.$eval(cartPage.selectors.cartItemQuantity, (element) => element.textContent)).toBe(value.toString())
+  })
+  /**
+   *
+   * Test Case 17: Remove Products From Cart
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Add products to cart
+   * 5. Click 'Cart' button
+   * 6. Verify that cart page is displayed
+   * 7. Click 'X' button corresponding to particular product
+   * 8. Verify that product is removed from the cart
+   */
+  test('Remove Products From Cart', async ({ page }) => {
+    await basePage.clickAddToCart({ page }, 4)
+    await basePage.clickContinueShopping({ page })
+    await basePage.clickAddToCart({ page }, 3)
+    await basePage.clickContinueShopping({ page })
+    await page.click(productsPage.selectors.goToCartBtn)
+    await expect(page).toHaveURL(siteMap.pages.cartPage)
+    await expect(page).toHaveTitle('Automation Exercise - Checkout')
+    cartItems = await page.$$(cartPage.selectors.cartProduct)
+    expect(cartItems.length).toBe(2)
+    await cartPage.clickRemoveButtonAndWaitForLoad({ page })
+    cartItems = await page.$$(cartPage.selectors.cartProduct)
+    expect(cartItems.length).toBe(1)
+    await cartPage.clickRemoveButtonAndWaitForLoad({ page })
+    await (await page.$(cartPage.selectors.emptyCartElem)).isVisible()
+    expect(await page.$eval(cartPage.selectors.emptyCartText, el => el.innerText)).toEqual('Cart is empty!')
   })
 })

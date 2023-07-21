@@ -11,6 +11,20 @@ export default class basePage {
     susbscribeHeader: 'div.single-widget > h2',
     susbscribeEmailField: '#susbscribe_email',
     susbscribeEmailBtn: 'button.btn-default',
-    alertSuccessMsg: 'div.alert-success'
+    alertSuccessMsg: 'div.alert-success',
+    addToCartButton: '.add-to-cart',
+    continueShoppingBtn: 'button.btn-block',
+    productItem: 'div.features_items>div>div.product-image-wrapper'
+  }
+
+  async clickAddToCart ({ page }, productIndex) {
+    const product = (await page.$$(this.selectors.productItem))[productIndex]
+    await product.hover()
+    await (await product.$(this.selectors.addToCartButton)).click()
+    return product
+  }
+
+  async clickContinueShopping ({ page }) {
+    await page.click(this.selectors.continueShoppingBtn)
   }
 }
