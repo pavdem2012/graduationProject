@@ -103,7 +103,7 @@ test.describe('Navigation Tests', () => {
    * @type {string[]}
    */
   // Не стабильное решение для многопотока в разных браузерах. Очень мешает google vignette
-  const searchProducts = ['Winter Top', 'Blue Cotton Indie Mickey Dress', 'Grunt Blue Slim Fit Jeans']
+  const searchProducts = ['Winter Top', 'Men Tshirt', 'Blue Cotton Indie Mickey Dress', 'Sleeves Printed Top - White', 'Grunt Blue Slim Fit Jeans', 'Rust Red Linen Saree']
   for (const searchProduct of searchProducts) {
     test(`Test Search Product "${searchProduct}"`, async ({ page }) => {
       await page.click(basePage.selectors.productsBtn)
@@ -149,10 +149,10 @@ test.describe('Navigation Tests', () => {
    * 7. Verify success message 'You have been successfully subscribed!' is visible
    */
   test('Verify Subscription in home page', async ({ page }) => {
-    await page.hover(basePage.selectors.susbscribeEmailField)
-    await expect(page.locator(basePage.selectors.susbscribeHeader)).toContainText('Subscription')
-    await page.fill(basePage.selectors.susbscribeEmailField, 'example@example.example')
-    await page.click(basePage.selectors.susbscribeEmailBtn)
+    await page.hover(basePage.selectors.subscribeEmailField)
+    await expect(page.locator(basePage.selectors.subscribeHeader)).toContainText('Subscription')
+    await page.fill(basePage.selectors.subscribeEmailField, 'example@example.example')
+    await page.click(basePage.selectors.subscribeEmailBtn)
     await expect(page.locator(basePage.selectors.alertSuccessMsg)).toContainText('You have been successfully subscribed!')
     await expect(page.locator(basePage.selectors.alertSuccessMsg)).toBeVisible()
   })

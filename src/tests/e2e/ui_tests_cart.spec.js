@@ -35,10 +35,10 @@ test.describe('Cart Tests', () => {
     await page.click(basePage.selectors.viewCartBtn)
     await expect(page).toHaveURL(siteMap.pages.cartPage)
     await expect(page).toHaveTitle('Automation Exercise - Checkout')
-    await page.hover(basePage.selectors.susbscribeEmailField)
-    await expect(page.locator(basePage.selectors.susbscribeHeader)).toContainText('Subscription')
-    await page.fill(basePage.selectors.susbscribeEmailField, 'example@example.example')
-    await page.click(basePage.selectors.susbscribeEmailBtn)
+    await page.hover(basePage.selectors.subscribeEmailField)
+    await expect(page.locator(basePage.selectors.subscribeHeader)).toContainText('Subscription')
+    await page.fill(basePage.selectors.subscribeEmailField, 'example@example.example')
+    await page.click(basePage.selectors.subscribeEmailBtn)
     await expect(page.locator(basePage.selectors.alertSuccessMsg)).toContainText('You have been successfully subscribed!')
     await expect(page.locator(basePage.selectors.alertSuccessMsg)).toBeVisible()
   })
@@ -137,5 +137,33 @@ test.describe('Cart Tests', () => {
     await cartPage.clickRemoveButtonAndWaitForLoad({ page })
     await (await page.$(cartPage.selectors.emptyCartElem)).isVisible()
     expect(await page.$eval(cartPage.selectors.emptyCartText, el => el.innerText)).toEqual('Cart is empty!')
+  })
+  /**
+   * Test Case 22: Add to cart from Recommended items
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Scroll to bottom of page
+   * 4. Verify 'RECOMMENDED ITEMS' are visible
+   * 5. Click on 'Add To Cart' on Recommended product
+   * 6. Click on 'View Cart' button
+   * 7. Verify that product is displayed in cart page
+   */
+  test('Add to cart from Recommended items', async ({ page }) => {
+    await page.hover(basePage.selectors.subscribeEmailField)
+    await (await page.$(basePage.selectors.recommendedItemsBlock)).isVisible()
+    const addedProductsInfo = []
+    const firstProduct = await basePage.clickAddToCartRecommended({ page }, 1)
+    const firstProductInfo = await productsPage.getProductInfo(firstProduct)
+    addedProductsInfo.push(firstProductInfo)
+    await basePage.clickContinueShopping({ page })
+    const secondProduct = await basePage.clickAddToCartRecommended({ page }, 2)
+    const secondProductInfo = await productsPage.getProductInfo(secondProduct)
+    addedProductsInfo.push(secondProductInfo)
+    await basePage.clickContinueShopping({ page })
+    await page.click(productsPage.selectors.goToCartBtn)
+    const cartProductsInfo1 = await cartPage.verifyCartProducts({ page })
+    for (let i = 0; i < cartProductsInfo1.length; i++) {
+      expect(cartProductsInfo1[i]).toEqual(addedProductsInfo[i])
+    }
   })
 })
