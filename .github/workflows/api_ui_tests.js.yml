@@ -1,6 +1,3 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Jest_API & Playwright_UI test
 
 on:
@@ -25,77 +22,80 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-#    - name: Set up Xvfb
-#      run: |
-#        sudo apt-get update
-#        sudo apt-get install xvfb -y
-#        export DISPLAY=:99
-#        Xvfb :99 -screen 0 1280x1024x16 &
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: Install dependencies
-      run: npm ci
-    - name: Update dependencies
-      run: npm update
-    - name: Run Jest api_tests
-      run: npm run test:api
-      continue-on-error: true
-    - name: Upload api_tests artifacts
-      continue-on-error: true
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: jest-report
-        if-no-files-found: error
-        path: ./reports/jest/
-        retention-days: 30
-    - name: Install Browsers for Playwright ui_tests
-      run: npx playwright install --with-deps
-    - name: Run Playwright ui_tests
-      run: npm run test:ui:ci
-      continue-on-error: true
-    - name: Upload ui_tests artifacts
-      continue-on-error: true
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: playwright-report
-        if-no-files-found: error
-        path: ./reports/playwright/
-        retention-days: 30
-#    - name: Upload united artifacts for github-pages //не оформившаяся идея для последующей выгрузки в архив
-#      continue-on-error: true
-#      if: always()
-#      uses: actions/upload-pages-artifact@v1
-#      with:
-#        path: 'reports'
-    - name: Deploy united artifacts on github-pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      continue-on-error: true
-      with:
-        folder: reports
-        clean: true
-        token: ${{ secrets.TOKEN }}
-#    - name: Delayed Telegram message //не ясно что делать чтобы информирование происходило строго после публикации
-#      run: sleep 150
-    - name: Send telegram message on push
-      uses: appleboy/telegram-action@master
-      with:
-        to: -${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          ${{ github.actor }} created commit:
-          Commit message: ${{ github.event.commits[0].message }}
+      - uses: actions/checkout@v3
 
-          Repository: ${{ github.repository }}
+      # Step 1: API Tests
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Update dependencies
+        run: npm update
+      - name: Run Jest api_tests
+        id: api_tests
+        run: npm run test:api
+        continue-on-error: true
 
-          Click the link to view the changes.: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+      # Step 2: API Tests Artifact
+      - name: Upload api_tests artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: jest-report
+          if-no-files-found: error
+          path: ./reports/jest/
+          retention-days: 30
 
-          You will be able to access the latest testing reports in five minutes using the provided link: https://pavdem2012.github.io/graduationProject/
+      # Step 3: UI Tests
+      - name: Install Browsers for Playwright ui_tests
+        run: npx playwright install --with-deps
+      - name: Run Playwright ui_tests
+        id: ui_tests
+        run: npm run test:ui:ci
+        continue-on-error: true
+
+      # Step 4: UI Tests Artifact
+      - name: Upload ui_tests artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          if-no-files-found: error
+          path: ./reports/playwright/
+          retention-days: 30
+
+      # Step 5: Check Errors
+      - name: Check Errors
+        run: echo "::set-output name=api_tests_status::${{ steps.api_tests.outcome }}"
+        continue-on-error: true
+
+      # Step 6: Deploy and Telegram Message
+      - name: Deploy united artifacts on github-pages
+        needs: [api_tests, ui_tests]
+        uses: JamesIves/github-pages-deploy-action@v4
+        continue-on-error: true
+        with:
+          folder: reports
+          clean: true
+          token: ${{ secrets.TOKEN }}
+
+      - name: Send telegram message on push
+        needs: [api_tests, ui_tests]
+        uses: appleboy/telegram-action@master
+        with:
+          to: -${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            
+            Repository: ${{ github.repository }}
+            
+            Click the link to view the changes.: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+            
+            You will be able to access the latest testing reports in five minutes using the provided link: https://pavdem2012.github.io/graduationProject/
