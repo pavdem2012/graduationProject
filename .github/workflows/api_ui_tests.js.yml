@@ -25,6 +25,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        #    - name: Set up Xvfb
+        #      run: |
+        #        sudo apt-get update
+        #        sudo apt-get install xvfb -y
+        #        export DISPLAY=:99
+        #        Xvfb :99 -screen 0 1280x1024x16 &
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -69,7 +75,12 @@ jobs:
           if-no-files-found: error
           path: ./reports/playwright/
           retention-days: 30
-
+#      - name: Upload united artifacts for github-pages //не оформившаяся идея для последующей выгрузки в архив
+#        continue-on-error: true
+#        if: always()
+#        uses: actions/upload-pages-artifact@v1
+#        with:
+#          path: 'reports'
       - name: Deploy united artifacts on github-pages
         if: always()
         uses: JamesIves/github-pages-deploy-action@v4
@@ -78,7 +89,8 @@ jobs:
           folder: reports
           clean: true
           token: ${{ secrets.TOKEN }}
-
+#      - name: Delayed Telegram message //не ясно что делать чтобы информирование происходило строго после публикации
+#        run: sleep 150
       - name: Send telegram message on push
         if: always()
         uses: appleboy/telegram-action@master
