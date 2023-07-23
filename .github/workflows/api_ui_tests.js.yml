@@ -25,53 +25,54 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+
       - name: Install dependencies
         run: npm ci
+
       - name: Update dependencies
         run: npm update
+
       - name: Run Jest api_tests
-        id: api_tests
         run: npm run test:api
         continue-on-error: true
+
       - name: Upload api_tests artifacts
-        if: needs.build.outputs.api_tests == 'success'
-        continue-on-error: true
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v3
         with:
           name: jest-report
-          if-no-files-found: error
           path: ./reports/jest/
-          retention-days: 30
+
       - name: Install Browsers for Playwright ui_tests
         run: npx playwright install --with-deps
+
       - name: Run Playwright ui_tests
-        if: needs.build.outputs.api_tests == 'success'
         run: npm run test:ui:ci
         continue-on-error: true
+
       - name: Upload ui_tests artifacts
-        if: needs.build.outputs.api_tests == 'success'
-        continue-on-error: true
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v3
         with:
           name: playwright-report
-          if-no-files-found: error
           path: ./reports/playwright/
-          retention-days: 30
+
       - name: Deploy united artifacts on github-pages
-        if: always()
         uses: JamesIves/github-pages-deploy-action@v4
         continue-on-error: true
         with:
           folder: reports
           clean: true
           token: ${{ secrets.TOKEN }}
+
       - name: Send telegram message on push
-        if: always()
+        if: ${{ failure() }}
         uses: appleboy/telegram-action@master
         with:
           to: -${{ secrets.TELEGRAM_TO }}
