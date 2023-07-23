@@ -3,7 +3,7 @@ name: Jest_API & Playwright_UI test
 on:
   workflow_dispatch:
   push:
-    branches:
+    branches: [ "develop" ]
   pull_request:
     branches: [ "master" ]
 
@@ -34,43 +34,51 @@ jobs:
         run: npm ci
       - name: Update dependencies
         run: npm update
+
       - name: Run Jest api_tests
-        id: jest
+        id: jest_tests
         run: npm run test:api
         continue-on-error: true
+
       - name: Upload api_tests artifacts
-        if: ${{ always() && steps.jest.outcome != 'success' }}
+        if: steps.jest_tests.outcome == 'failure'
+        continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
           name: jest-report
           if-no-files-found: error
           path: ./reports/jest/
           retention-days: 30
+
       - name: Install Browsers for Playwright ui_tests
-        if: ${{ always() && steps.jest.outcome == 'success' }}
         run: npx playwright install --with-deps
+
       - name: Run Playwright ui_tests
-        if: ${{ always() && steps.jest.outcome == 'success' }}
+        id: playwright_tests
         run: npm run test:ui:ci
         continue-on-error: true
+
       - name: Upload ui_tests artifacts
-        if: ${{ always() && steps.jest.outcome == 'success' }}
+        if: steps.playwright_tests.outcome == 'failure'
+        continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
           name: playwright-report
           if-no-files-found: error
           path: ./reports/playwright/
           retention-days: 30
+
       - name: Deploy united artifacts on github-pages
-        if: ${{ always() }}
+        if: steps.jest_tests.outcome == 'success' && steps.playwright_tests.outcome == 'success'
         uses: JamesIves/github-pages-deploy-action@v4
         continue-on-error: true
         with:
           folder: reports
           clean: true
           token: ${{ secrets.TOKEN }}
+
       - name: Send telegram message on push
-        if: ${{ always() }}
+        if: steps.jest_tests.outcome == 'success' && steps.playwright_tests.outcome == 'success'
         uses: appleboy/telegram-action@master
         with:
           to: -${{ secrets.TELEGRAM_TO }}
