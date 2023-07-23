@@ -8,7 +8,13 @@ export default class productsPage {
     addToCartButton: '.add-to-cart',
     continueShoppingBtn: 'button.btn-success',
     goToCartBtn: 'ul.nav>li>a>i.fa-shopping-cart',
-    miniCartProductName: 'div.productinfo p'
+    miniCartProductName: 'div.productinfo p',
+    sideBarBrandsBlock: 'div.brands_products',
+    sideBarBrandsHeader: 'div.brands_products>h2',
+    sideBarBrandsNames: {
+      poloBrand: 'a[href="/brand_products/Polo"]',
+      madameBrand: 'a[href="/brand_products/Madame"]'
+    }
   }
 
   async clickAddToCart ({ page }, productIndex) {

@@ -10,6 +10,7 @@ export default {
     productsPage: 'https://automationexercise.com/products',
     product1DetailsPage: 'https://automationexercise.com/product_details/1',
     cartPage: 'https://automationexercise.com/view_cart',
-    productCategoryPage: 'https://automationexercise.com/category_products/'
+    productCategoryPage: 'https://automationexercise.com/category_products/',
+    brandsProductPage: 'https://automationexercise.com/brand_products/'
   }
 }
