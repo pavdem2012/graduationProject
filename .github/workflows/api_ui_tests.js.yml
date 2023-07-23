@@ -36,8 +36,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+
       - name: Install dependencies
         run: npm ci
+
       - name: Update dependencies
         run: npm update
 
@@ -75,12 +77,14 @@ jobs:
           if-no-files-found: error
           path: ./reports/playwright/
           retention-days: 30
+
 #      - name: Upload united artifacts for github-pages //не оформившаяся идея для последующей выгрузки в архив
 #        continue-on-error: true
 #        if: always()
 #        uses: actions/upload-pages-artifact@v1
 #        with:
 #          path: 'reports'
+
       - name: Deploy united artifacts on github-pages
         if: always()
         uses: JamesIves/github-pages-deploy-action@v4
@@ -89,8 +93,10 @@ jobs:
           folder: reports
           clean: true
           token: ${{ secrets.TOKEN }}
+
 #      - name: Delayed Telegram message //не ясно что делать чтобы информирование происходило строго после публикации
 #        run: sleep 150
+
       - name: Send telegram message on push
         if: always()
         uses: appleboy/telegram-action@master
@@ -106,6 +112,7 @@ jobs:
             Click the link to view the changes.: https://github.com/${{ github.repository }}/commit/${{github.sha}}
             
             You will be able to access the latest testing reports in five minutes using the provided link: https://pavdem2012.github.io/graduationProject/
+
       - name: Check for test failures
         if: steps.jest_tests.outcome == 'failure' || steps.playwright_tests.outcome == 'failure'
         run: exit 1

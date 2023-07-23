@@ -16,7 +16,18 @@ export default class basePage {
     continueShoppingBtn: 'button.btn-block',
     productItem: 'div.features_items>div>div.product-image-wrapper',
     recommendedItemsBlock: 'div.recommended_items',
-    recommendedItemsActive: 'div.active>div>div.product-image-wrapper'
+    recommendedItemsActive: 'div.active>div>div.product-image-wrapper',
+    sideBarBlock: 'div.left-sidebar',
+    sideBarWomen: {
+      sideBarWomenItem: '#accordian > div:nth-child(1) > div.panel-heading > h4 > a > span > i',
+      sideBarWomenItems: 'div[id=Women]',
+      sideBarWomenDress: 'a[href="/category_products/1"]'
+    },
+    sideBarMen: {
+      sideBarMenItem: '#accordian > div:nth-child(2) > div.panel-heading > h4 > a',
+      sideBarMenItems: 'div[id=Men]',
+      sideBarMenTShirts: 'a[href="/category_products/3"]'
+    }
   }
 
   async clickAddToCart ({ page }, productIndex) {
