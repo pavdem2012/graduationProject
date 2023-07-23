@@ -139,4 +139,28 @@ test.describe('Navigation Tests', () => {
     await expect(page.locator(productsCategoryPage.selectors.productsList)).toBeVisible()
     await expect(page.locator(productsCategoryPage.selectors.productsListHeader)).toContainText('Men - Tshirts Products')
   })
+  /**
+   * Test Case 19: View & Cart Brand Products
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Click on 'Products' button
+   * 4. Verify that Brands are visible on left sidebar
+   * 5. Click on any brand name
+   * 6. Verify that user is navigated to brand page and brand products are displayed
+   * 7. On left sidebar, click on any other brand link
+   * 8. Verify that user is navigated to that brand page and can see products
+   */
+  test('Verify View & Cart Brand Products', async ({ page }) => {
+    await page.click(basePage.selectors.productsBtn)
+    await expect(page.locator(productsPage.selectors.sideBarBrandsBlock)).toBeVisible()
+    await expect(page.locator(productsPage.selectors.sideBarBrandsHeader)).toContainText('Brands')
+    await page.click(productsPage.selectors.sideBarBrandsNames.poloBrand)
+    await expect(page.url()).toContain(siteMap.pages.brandsProductPage)
+    await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
+    await expect(page.locator(productsCategoryPage.selectors.productsListHeader)).toContainText('Brand - Polo Products')
+    await page.click(productsPage.selectors.sideBarBrandsNames.madameBrand)
+    await expect(page.url()).toContain(siteMap.pages.brandsProductPage)
+    await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
+    await expect(page.locator(productsCategoryPage.selectors.productsListHeader)).toContainText('Brand - Madame Products')
+  })
 })
