@@ -106,3 +106,6 @@ jobs:
             Click the link to view the changes.: https://github.com/${{ github.repository }}/commit/${{github.sha}}
             
             You will be able to access the latest testing reports in five minutes using the provided link: https://pavdem2012.github.io/graduationProject/
+      - name: Check for test failures
+        if: steps.jest_tests.outcome == 'failure' || steps.playwright_tests.outcome == 'failure'
+        run: exit 1
