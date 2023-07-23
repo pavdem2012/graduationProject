@@ -41,9 +41,9 @@ jobs:
         continue-on-error: true
 
       - name: Upload api_tests artifacts
-        if: steps.jest_tests.outcome == 'failure'
         continue-on-error: true
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: jest-report
           if-no-files-found: error
@@ -51,15 +51,17 @@ jobs:
           retention-days: 30
 
       - name: Install Browsers for Playwright ui_tests
+        if: steps.jest_tests.outcome == 'success'
         run: npx playwright install --with-deps
 
       - name: Run Playwright ui_tests
+        if: steps.jest_tests.outcome == 'success'
         id: playwright_tests
         run: npm run test:ui:ci
         continue-on-error: true
 
       - name: Upload ui_tests artifacts
-        if: steps.playwright_tests.outcome == 'failure'
+        if: steps.jest_tests.outcome == 'success'
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
@@ -69,7 +71,7 @@ jobs:
           retention-days: 30
 
       - name: Deploy united artifacts on github-pages
-        if: steps.jest_tests.outcome == 'success' && steps.playwright_tests.outcome == 'success'
+        if: always()
         uses: JamesIves/github-pages-deploy-action@v4
         continue-on-error: true
         with:
@@ -78,7 +80,7 @@ jobs:
           token: ${{ secrets.TOKEN }}
 
       - name: Send telegram message on push
-        if: steps.jest_tests.outcome == 'success' && steps.playwright_tests.outcome == 'success'
+        if: always()
         uses: appleboy/telegram-action@master
         with:
           to: -${{ secrets.TELEGRAM_TO }}
