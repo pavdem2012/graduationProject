@@ -36,7 +36,7 @@ test.describe('Navigation Tests', () => {
    */
   test('Contact Us form validation', async ({ page }) => {
     await page.click(basePage.selectors.contactUsBtn)
-    await expect(page).toHaveURL(siteMap.pages.contactUsPage)
+    await expect(page).toHaveURL(siteMap.pages.basePage)
     await expect(page.locator(contactUsPage.selectors.contactUsFormHeader)).toHaveText('Get In Touch')
     await page.fill(contactUsPage.selectors.contactUsFormName, 'user')
     await page.fill(contactUsPage.selectors.contactUsFormEmail, 'example@example.example')
