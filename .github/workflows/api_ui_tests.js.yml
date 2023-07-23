@@ -39,7 +39,7 @@ jobs:
         run: npm run test:api
         continue-on-error: true
       - name: Upload api_tests artifacts
-        if: steps.api_tests.outcome == 'success'
+        if: needs.build.outputs.api_tests == 'success'
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
@@ -50,11 +50,11 @@ jobs:
       - name: Install Browsers for Playwright ui_tests
         run: npx playwright install --with-deps
       - name: Run Playwright ui_tests
-        if: steps.api_tests.outcome == 'success'
+        if: needs.build.outputs.api_tests == 'success'
         run: npm run test:ui:ci
         continue-on-error: true
       - name: Upload ui_tests artifacts
-        if: steps.api_tests.outcome == 'success'
+        if: needs.build.outputs.api_tests == 'success'
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
