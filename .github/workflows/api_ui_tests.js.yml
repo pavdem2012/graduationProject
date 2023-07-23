@@ -25,8 +25,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      # Step 1: API Tests
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -40,52 +38,40 @@ jobs:
         id: api_tests
         run: npm run test:api
         continue-on-error: true
-
-      # Step 2: API Tests Artifact
       - name: Upload api_tests artifacts
-        if: always()
+        if: steps.api_tests.outcome == 'success'
+        continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
           name: jest-report
           if-no-files-found: error
           path: ./reports/jest/
           retention-days: 30
-
-      # Step 3: UI Tests
       - name: Install Browsers for Playwright ui_tests
         run: npx playwright install --with-deps
       - name: Run Playwright ui_tests
-        id: ui_tests
+        if: steps.api_tests.outcome == 'success'
         run: npm run test:ui:ci
         continue-on-error: true
-
-      # Step 4: UI Tests Artifact
       - name: Upload ui_tests artifacts
-        if: always()
+        if: steps.api_tests.outcome == 'success'
+        continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
           name: playwright-report
           if-no-files-found: error
           path: ./reports/playwright/
           retention-days: 30
-
-      # Step 5: Check Errors
-      - name: Check Errors
-        run: echo "::set-output name=api_tests_status::${{ steps.api_tests.outcome }}"
-        continue-on-error: true
-
-      # Step 6: Deploy and Telegram Message
       - name: Deploy united artifacts on github-pages
-        needs: [api_tests, ui_tests]
+        if: always()
         uses: JamesIves/github-pages-deploy-action@v4
         continue-on-error: true
         with:
           folder: reports
           clean: true
           token: ${{ secrets.TOKEN }}
-
       - name: Send telegram message on push
-        needs: [api_tests, ui_tests]
+        if: always()
         uses: appleboy/telegram-action@master
         with:
           to: -${{ secrets.TELEGRAM_TO }}
