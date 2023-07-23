@@ -27,7 +27,11 @@ export default class basePage {
       sideBarMenItem: '#accordian > div:nth-child(2) > div.panel-heading > h4 > a',
       sideBarMenItems: 'div[id=Men]',
       sideBarMenTShirts: 'a[href="/category_products/3"]'
-    }
+    },
+    footerElem: '#footer',
+    headerElem: '#header',
+    scrollUpBtn: '#scrollUp>i',
+    activeSliderHeader: '#slider-carousel > div > div.active > div:nth-child(1) > h2'
   }
 
   async clickAddToCart ({ page }, productIndex) {

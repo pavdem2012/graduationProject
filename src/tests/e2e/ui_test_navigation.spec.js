@@ -163,4 +163,40 @@ test.describe('Navigation Tests', () => {
     await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
     await expect(page.locator(productsCategoryPage.selectors.productsListHeader)).toContainText('Brand - Madame Products')
   })
+  /**
+   * Test Case 25: Verify Scroll Up using 'Arrow' button and Scroll Down functionality
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Scroll down page to bottom
+   * 5. Verify 'SUBSCRIPTION' is visible
+   * 6. Click on arrow at bottom right side to move upward
+   * 7. Verify that page is scrolled up and 'Full-Fledged practice website for Automation Engineers' text is visible on screen
+   */
+  test('Verify Scroll Up using \'Arrow\' button and Scroll Down functionality', async ({ page }) => {
+    await page.keyboard.down('End')
+    await expect(page.locator(basePage.selectors.subscribeHeader)).toContainText('Subscription')
+    await expect(page.locator(basePage.selectors.subscribeHeader)).toBeVisible()
+    await page.dblclick(basePage.selectors.scrollUpBtn, { force: true })
+    await expect(page.locator(basePage.selectors.activeSliderHeader)).toBeVisible()
+    await expect(page.locator(basePage.selectors.activeSliderHeader)).toContainText('Full-Fledged practice website for Automation Engineers')
+  })
+  /**
+   * Test Case 26: Verify Scroll Up without 'Arrow' button and Scroll Down functionality
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Scroll down page to bottom
+   * 5. Verify 'SUBSCRIPTION' is visible
+   * 6. Scroll up page to top
+   * 7. Verify that page is scrolled up and 'Full-Fledged practice website for Automation Engineers' text is visible on screen
+   */
+  test('Verify Scroll Up without \'Arrow\' button and Scroll Down functionality', async ({ page }) => {
+    await page.hover(basePage.selectors.footerElem)
+    await expect(page.locator(basePage.selectors.subscribeHeader)).toContainText('Subscription')
+    await expect(page.locator(basePage.selectors.subscribeHeader)).toBeVisible()
+    await page.hover(basePage.selectors.headerElem)
+    await expect(page.locator(basePage.selectors.activeSliderHeader)).toBeVisible()
+    await expect(page.locator(basePage.selectors.activeSliderHeader)).toContainText('Full-Fledged practice website for Automation Engineers')
+  })
 })
