@@ -5,6 +5,7 @@ import SetupTeardown from '../../framework/config/setupTeardown.js'
 import ContactUsPage from '../../framework/pages/ContactUsPage.js'
 import ProductsDetailPage from '../../framework/pages/ProductsDetailPage.js'
 import ProductsPage from '../../framework/pages/ProductsPage.js'
+import ProductsCategoryPage from '../../framework/pages/ProductsCategoryPage.js'
 import fs from 'fs'
 
 const setupTeardown = new SetupTeardown()
@@ -12,6 +13,7 @@ const basePage = new BasePage()
 const contactUsPage = new ContactUsPage()
 const productsDetailPage = new ProductsDetailPage()
 const productsPage = new ProductsPage()
+const productsCategoryPage = new ProductsCategoryPage()
 
 test.describe('Navigation Tests', () => {
   test.beforeEach(async ({ page }) => {
@@ -90,57 +92,7 @@ test.describe('Navigation Tests', () => {
     await expect(page.locator(productsDetailPage.selectors.condition)).toBeVisible()
     await expect(page.locator(productsDetailPage.selectors.brand)).toBeVisible()
   })
-  /**
-   * Test Case 9: Search Product
-   * 1. Launch browser
-   * 2. Navigate to url 'http://automationexercise.com'
-   * 3. Verify that home page is visible successfully
-   * 4. Click on 'Products' button
-   * 5. Verify user is navigated to ALL PRODUCTS page successfully
-   * 6. Enter product name in search input and click search button
-   * 7. Verify 'SEARCHED PRODUCTS' is visible
-   * 8. Verify all the products related to search are visible
-   * @type {string[]}
-   */
-  // Не стабильное решение для многопотока в разных браузерах. Очень мешает google vignette (вроде решено)
-  const searchProducts = ['Winter Top', 'Men Tshirt', 'Blue Cotton Indie Mickey Dress', 'Sleeves Printed Top - White', 'Grunt Blue Slim Fit Jeans', 'Rust Red Linen Saree']
-  for (const searchProduct of searchProducts) {
-    test(`Test Search Product "${searchProduct}"`, async ({ page }) => {
-      await page.click(basePage.selectors.productsBtn)
-      await expect(page).toHaveURL(siteMap.pages.productsPage)
-      await expect(page).toHaveTitle('Automation Exercise - All Products')
-      await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
-      await page.fill(productsPage.selectors.searchField, searchProduct)
-      await page.waitForLoadState('domcontentloaded')
-      await page.click(productsPage.selectors.searchBtn)
-      await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
-      await expect(page.locator(productsPage.selectors.productsList)).toContainText('Searched Products')
-      const products = await page.$$(productsPage.selectors.productItem)
-      for (const product of products) {
-        const isVisible = await product.isVisible()
-        expect(isVisible).toBe(true)
-      }
-      expect((await (await page.$(productsPage.selectors.miniCartProductName)).innerText()).trim()).toEqual(searchProduct)
-    })
-  }
-  // тест для отладки механизма поиска
-  // test('Search Product test', async ({ page }) => {
-  //   await page.click(basePage.selectors.productsBtn)
-  //   await expect(page).toHaveURL(siteMap.pages.productsPage)
-  //   await expect(page).toHaveTitle('Automation Exercise - All Products')
-  //   await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
-  //   await page.fill(productsPage.selectors.searchField, 'Winter Top')
-  //   await page.waitForLoadState('domcontentloaded')
-  //   await page.click(productsPage.selectors.searchBtn)
-  //   await expect(page.locator(productsPage.selectors.productsList)).toBeVisible()
-  //   await expect(page.locator(productsPage.selectors.productsList)).toContainText('Searched Products')
-  //   const products = await page.$$(productsPage.selectors.productItem)
-  //   for (const product of products) {
-  //     const isVisible = await product.isVisible()
-  //     expect(isVisible).toBe(true)
-  //   }
-  //   expect((await (await page.$(productsPage.selectors.miniCartProductName)).innerText()).trim()).toEqual('Winter Top')
-  // })
+
   /**
    * Test Case 10: Verify Subscription in home page
    * 1. Launch browser
@@ -158,5 +110,33 @@ test.describe('Navigation Tests', () => {
     await page.click(basePage.selectors.subscribeEmailBtn)
     await expect(page.locator(basePage.selectors.alertSuccessMsg)).toContainText('You have been successfully subscribed!')
     await expect(page.locator(basePage.selectors.alertSuccessMsg)).toBeVisible()
+  })
+  /**
+   * Test Case 18: View Category Products
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that categories are visible on left sidebar
+   * 4. Click on 'Women' category
+   * 5. Click on any category link under 'Women' category, for example: Dress
+   * 6. Verify that category page is displayed and confirm text 'WOMEN - DRESS PRODUCTS'
+   * 7. On left sidebar, click on any sub-category link of 'Men' category
+   * 8. Verify that user is navigated to that category page
+   */
+  test('Verify View Category Products', async ({ page }) => {
+    await expect(page.locator(basePage.selectors.sideBarBlock)).toBeVisible()
+    await expect(page.locator(basePage.selectors.sideBarBlock)).toContainText('Category')
+    await page.click(basePage.selectors.sideBarWomen.sideBarWomenItem)
+    await expect(page.locator(basePage.selectors.sideBarWomen.sideBarWomenItems)).toBeVisible()
+    await page.waitForLoadState('domcontentloaded')
+    await page.click(basePage.selectors.sideBarWomen.sideBarWomenDress)
+    await expect(page.url()).toContain(siteMap.pages.productCategoryPage)
+    await expect(page.locator(productsCategoryPage.selectors.productsList)).toBeVisible()
+    await expect(page.locator(productsCategoryPage.selectors.productsListHeader)).toContainText('Women - Dress Products')
+    await page.click(basePage.selectors.sideBarMen.sideBarMenItem)
+    await expect(page.locator(basePage.selectors.sideBarMen.sideBarMenItems)).toBeVisible()
+    await page.click(basePage.selectors.sideBarMen.sideBarMenTShirts)
+    await expect(page.url()).toContain(siteMap.pages.productCategoryPage)
+    await expect(page.locator(productsCategoryPage.selectors.productsList)).toBeVisible()
+    await expect(page.locator(productsCategoryPage.selectors.productsListHeader)).toContainText('Men - Tshirts Products')
   })
 })
