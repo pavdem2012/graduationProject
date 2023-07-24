@@ -45,7 +45,6 @@ test.describe('User CRUD Tests', () => {
    * 16. Verify that 'Logged in as username' is visible
    */
   test('should create user', async ({ page }) => {
-    // userData = await userData
     await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.signUpForm)).toContain('New User Signup!')
     await loginPage.fillSignUpForm(page, userData)
@@ -75,8 +74,6 @@ test.describe('User CRUD Tests', () => {
    * 10. Verify that user is navigated to login page
    */
   test('should login/logout user', async ({ page }) => {
-    // userData = await userData
-    // await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account')
     await loginPage.fillLoginInForm(page, userData)
     await expect(page).toHaveURL(siteMap.pages.basePage)
@@ -96,8 +93,6 @@ test.describe('User CRUD Tests', () => {
    * 8. Verify error 'Your email or password is incorrect!' is visible
    */
   test('failed to login with wrong password', async ({ page }) => {
-    // userData = await userData
-    // await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account')
     await page.fill(LoginPage.selectors.emailLogField, userData.email)
     await page.fill(LoginPage.selectors.passLogField, 'wrongpassword')
@@ -118,8 +113,6 @@ test.describe('User CRUD Tests', () => {
    * 8. Verify error 'Your email or password is incorrect!' is visible
    */
   test('failed to login with wrong email', async ({ page }) => {
-    // userData = await userData
-    // await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account')
     await page.fill(LoginPage.selectors.emailLogField, 'wrongemail@example.com')
     await page.fill(LoginPage.selectors.passLogField, userData.userPass)
@@ -140,8 +133,6 @@ test.describe('User CRUD Tests', () => {
    * 8. Verify error 'Email Address already exist!' is visible
    */
   test('failed to register with existing email', async ({ page }) => {
-    // userData = await userData
-    // await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.signUpForm)).toContain('New User Signup!')
     await loginPage.fillSignUpForm(page, userData)
     const text = await page.textContent('p[style="color: red;"]')
@@ -162,8 +153,6 @@ test.describe('User CRUD Tests', () => {
    * 10. Verify that 'ACCOUNT DELETED!' is visible  and click 'Continue' button
    */
   test('should login/delete user', async ({ page }) => {
-    // userData = await userData
-    // await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account')
     await loginPage.fillLoginInForm(page, userData)
     await expect(page).toHaveURL(siteMap.pages.basePage)
