@@ -1,17 +1,17 @@
 import siteMap from './siteMap.js'
 import { expect } from '@playwright/test'
-import BasePage from '../pages/BasePage.js'
+import HeaderBlock from '../elements/HeaderBlock.js'
 
 export default class SetupTeardown {
   constructor () {
-    this.basePage = new BasePage()
+    this.headerBlock = new HeaderBlock()
   }
 
   async setupLoginTests ({ page }) {
     await page.goto(siteMap.pages.basePage)
     await expect(page).toHaveURL(siteMap.pages.basePage)
     await expect(page).toHaveTitle('Automation Exercise')
-    await page.click(this.basePage.selectors.signUpBtn)
+    await page.click(this.headerBlock.selectors.signUpBtn)
   }
 
   async setupNavTests ({ page }) {
