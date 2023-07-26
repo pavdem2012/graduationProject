@@ -1,7 +1,7 @@
 {
   "name": "qajs-2023-03",
   "version": "1.0.0",
-  "description": "дипломный проект OTUS",
+  "description": "API и E2E тестирование интернет магазина с помощью Jest и Playwright",
   "main": "index.js",
   "type": "module",
   "scripts": {
