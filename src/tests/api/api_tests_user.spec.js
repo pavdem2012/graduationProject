@@ -6,9 +6,12 @@ import schemas from '../../framework/schemas/multipleSchemas.json'
 import UserCreator from '../../framework/fixture/UserCreator.js'
 
 import {
-  deleteAccount,
-  generateUserFormData, getUserDetailByEmail,
-  universUserController
+  generateUserFormData,
+  getUser,
+  userCreate,
+  userDelete,
+  userUpdate,
+  userVerify
 } from '../../framework/api_controllers/userController.js'
 
 const ajv = new Ajv({ allErrors: true })
@@ -40,12 +43,12 @@ describe('userTests', () => {
     formData = new URLSearchParams()
     const userFormData = generateUserFormData(userData)
     for (const pair of userFormData.entries()) {
-      formData.append(pair[0], pair[1])
+      formData.set(pair[0], pair[1])
     }
-    formData.append('email', userData.email)
-    formData.append('password', userData.userPass)
-    formData.append('title', 'Mr')
-    response = await universUserController({ path: '/createAccount', method: 'post', formData })
+    formData.set('email', userData.email)
+    formData.set('password', userData.userPass)
+    formData.set('title', 'Mr')
+    response = await userCreate({ data: formData })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
@@ -65,9 +68,9 @@ describe('userTests', () => {
    */
   test('POST To Verify Login with valid details', async () => {
     formData = new URLSearchParams()
-    formData.append('email', email)
-    formData.append('password', userPass)
-    response = await universUserController({ path: '/verifyLogin', method: 'post', formData })
+    formData.set('email', email)
+    formData.set('password', userPass)
+    response = await userVerify({ data: formData })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
@@ -87,7 +90,7 @@ describe('userTests', () => {
   test('POST To Verify Login without email parameter', async () => {
     formData = new URLSearchParams()
     formData.append('password', userPass)
-    response = await universUserController({ path: '/verifyLogin', method: 'post', formData })
+    response = await userVerify({ formData })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
@@ -104,7 +107,7 @@ describe('userTests', () => {
    * Response Message: This request method is not supported.
    */
   test('DELETE To Verify Login', async () => {
-    response = await universUserController({ path: '/verifyLogin', method: 'delete' })
+    response = await userVerify({ method: 'delete' })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
@@ -114,18 +117,18 @@ describe('userTests', () => {
     expect(ajv.validate(schemas.userChangeResponses, response.data)).toBe(true)
   })
   /**
-   * API 11: POST To Create/Register User Account
-   * API URL: https://automationexercise.com/api/createAccount
+   * API 10: POST To Verify Login with invalid details
+   * API URL: https://automationexercise.com/api/verifyLogin
    * Request Method: POST
-   * Request Parameters: name, email, password, title (for example: Mr, Mrs, Miss), birth_date, birth_month, birth_year, firstname, lastname, company, address1, address2, country, zipcode, state, city, mobile_number
-   * Response Code: 201
-   * Response Message: User created!
+   * Request Parameters: email, password (invalid values)
+   * Response Code: 404
+   * Response Message: User not found!
    */
   test('POST To Verify Login with invalid details', async () => {
     formData = new URLSearchParams()
-    formData.append('email', 'example@example.example.example')
-    formData.append('password', userPass)
-    response = await universUserController({ path: '/verifyLogin', method: 'post', formData })
+    formData.set('email', 'example@example.example.example')
+    formData.set('password', userPass)
+    response = await userVerify({ data: formData })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
@@ -153,7 +156,7 @@ describe('userTests', () => {
     formData.append('password', userPass)
     formData.append('title', 'Mrs')
     updateUserData = formData
-    response = await universUserController({ path: '/updateAccount', method: 'put', formData })
+    response = await userUpdate({ path: '/updateAccount', method: 'put', data: formData })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
@@ -171,8 +174,7 @@ describe('userTests', () => {
    * Response JSON: User Detail
    */
   test('GET user account detail by email', async () => {
-    const searchParam = email
-    response = await getUserDetailByEmail({ searchParam, path: '/getUserDetailByEmail' })
+    response = await getUser({ data: email })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()
@@ -208,7 +210,7 @@ describe('userTests', () => {
     formData = new URLSearchParams()
     formData.append('email', email)
     formData.append('password', userPass)
-    response = await deleteAccount({ path: '/deleteAccount', method: 'delete', formData })
+    response = await userDelete({ path: '/deleteAccount', method: 'delete', data: formData })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBeDefined()

@@ -1,33 +1,45 @@
-import axios from 'axios'
-import siteMap from '../config/siteMap.js'
-const url = siteMap.pages.apiUrl
-let options = {
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  },
-  validateStatus: false
-}
-let response
+import client from './client.js'
 
-// // eslint-disable-next-line prefer-const
-export const universUserController = async ({ path, method, formData }) => {
-  response = await axios[method.toLowerCase()](url + path, formData, options)
-  return response
+export const userVerify = (options) => {
+  delete options.url
+  return client({
+    method: 'post',
+    url: '/verifyLogin',
+    ...options
+  })
 }
 
-export const deleteAccount = async ({ path, method, formData }) => {
-  options = {
-    ...options,
-    data: formData.toString()
-  }
-  response = await axios[method.toLowerCase()](url + path, options)
-  return response
+export const userCreate = (options) => {
+  delete options.url
+  return client({
+    method: 'post',
+    url: '/createAccount',
+    ...options
+  })
 }
-export const getUserDetailByEmail = async ({ searchParam, path }) => {
-  searchParam = `?email=${searchParam}`
-  response = await axios.get(`${url}${path}${searchParam}`)
-  return response
+
+export const userUpdate = (options) => {
+  delete options.url
+  return client({
+    method: 'put',
+    url: '/updateAccount',
+    ...options
+  })
 }
+
+export const getUser = (options) => {
+  return client.get(`/getUserDetailByEmail?email=${options.data}`)
+}
+
+export const userDelete = (options) => {
+  delete options.url
+  return client({
+    method: 'delete',
+    url: '/deleteAccount',
+    ...options
+  })
+}
+
 export const generateUserFormData = (userData) => {
   const formData = new URLSearchParams()
   formData.append('name', userData.firstName)

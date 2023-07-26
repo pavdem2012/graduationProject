@@ -1,15 +1,18 @@
-import axios from 'axios'
-import siteMap from '../config/siteMap.js'
-const url = siteMap.pages.apiUrl
-const options = {
-  validateStatus: false
+import client from './client.js'
+export const productsList = (options) => {
+  delete options.url
+  return client({
+    url: '/productsList',
+    ...options
+  })
 }
-let response
-export const productsListResp = async ({ path, method }) => {
-  response = await axios[method.toLowerCase()](url + path, options)
-  return response
-}
-export const productsSearchResp = async ({ path, method, formData }) => {
-  response = await axios[method.toLowerCase()](url + path, formData, options)
-  return response
+
+export const productsSearch = (options) => {
+  delete options.url
+  delete options.method
+  return client({
+    url: '/searchProduct',
+    method: 'post',
+    ...options
+  })
 }
