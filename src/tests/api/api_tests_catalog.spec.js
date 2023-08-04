@@ -3,14 +3,16 @@ import Ajv from 'ajv'
 import ajvFormats from 'ajv-formats'
 
 import schemas from '../../framework/schemas/multipleSchemas.json'
-import { productsListResp, productsSearchResp } from '../../framework/api_controllers/productsListController.js'
-import { brandsListResp } from '../../framework/api_controllers/brandsListController.js'
+import {
+  productsList,
+  productsSearch
+} from '../../framework/api_controllers/productsListController.js'
+import { productsBrands } from '../../framework/api_controllers/brandsListController.js'
 
 const ajv = new Ajv({ allErrors: true })
 ajvFormats(ajv)
 let response
 
-let formData
 /* global test */
 // eslint-disable-next-line
 describe('API products&brands tests', () => {
@@ -22,10 +24,9 @@ describe('API products&brands tests', () => {
    * Response JSON: All products list
    */
   test('Get All Products List', async () => {
-    response = await productsListResp({ path: '/productsList', method: 'get' })
+    response = await productsList({})
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
-    expect(response.data.responseCode).toBeDefined()
     expect(response.data.responseCode).toEqual(200)
     expect(response.data.products).toBeDefined()
     expect(Array.isArray(response.data.products)).toBe(true)
@@ -46,11 +47,9 @@ describe('API products&brands tests', () => {
    * Response Message: This request method is not supported.
    */
   test('POST To All Products List', async () => {
-    response = await productsListResp({ path: '/productsList', method: 'post' })
+    response = await productsList({ method: 'post' })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
-    expect(response.data.responseCode).toBeDefined()
-    expect(response.data.message).toBeDefined()
     expect(response.data.responseCode).toEqual(405)
     expect(response.data.message).toContain('This request method is not supported.')
     expect(ajv.validate(schemas.productsBrandsListErr, response.data)).toBe(true)
@@ -64,11 +63,9 @@ describe('API products&brands tests', () => {
    * Response JSON: All brands list
    */
   test('Get All Brands List', async () => {
-    response = await brandsListResp({ path: '/brandsList', method: 'get' })
+    response = await productsBrands({})
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
-    expect(response.data.responseCode).toBeDefined()
-    expect(response.data.brands).toBeDefined()
     expect(response.data.responseCode).toEqual(200)
     expect(Array.isArray(response.data.brands)).toBe(true)
     expect(ajv.validate(schemas.allBrandsList, response.data)).toBe(true)
@@ -85,11 +82,9 @@ describe('API products&brands tests', () => {
    * Response Message: This request method is not supported.
    */
   test('PUT To All Brands List', async () => {
-    response = await brandsListResp({ path: '/brandsList', method: 'put' })
+    response = await productsBrands({ method: 'PUT' })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
-    expect(response.data.responseCode).toBeDefined()
-    expect(response.data.message).toBeDefined()
     expect(response.data.responseCode).toEqual(405)
     expect(response.data.message).toContain('This request method is not supported.')
     expect(ajv.validate(schemas.productsBrandsListErr, response.data)).toBe(true)
@@ -105,14 +100,12 @@ describe('API products&brands tests', () => {
    * Response JSON: Searched products list
    */
   test.each(searchProducts)('POST To Search Product by "%s"', async (searchProduct) => {
-    formData = new URLSearchParams()
-    formData.append('search_product', searchProduct)
-    response = await productsSearchResp({ path: '/searchProduct', method: 'post', formData })
+    const formData = new URLSearchParams()
+    formData.set('search_product', searchProduct)
+    response = await productsSearch({ data: formData })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
-    expect(response.data.responseCode).toBeDefined()
     expect(response.data.responseCode).toEqual(200)
-    expect(response.data.products).toBeDefined()
     expect(Array.isArray(response.data.products)).toBe(true)
     expect(ajv.validate(schemas.searchProducts, response.data)).toBe(true)
     response.data.products.forEach((product) => {
@@ -131,11 +124,9 @@ describe('API products&brands tests', () => {
    * Response Message: Bad request, search_product parameter is missing in POST request.
    */
   test('POST To Search Product without search_product parameter', async () => {
-    response = await productsSearchResp({ path: '/searchProduct', method: 'post' })
+    response = await productsSearch({ })
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
-    expect(response.data.responseCode).toBeDefined()
-    expect(response.data.message).toBeDefined()
     expect(response.data.responseCode).toEqual(400)
     expect(response.data.message).toContain('Bad request, search_product parameter is missing in POST request.')
     expect(ajv.validate(schemas.productsBrandsListErr, response.data)).toBe(true)

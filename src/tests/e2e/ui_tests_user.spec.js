@@ -1,24 +1,17 @@
 import { test, expect } from '@playwright/test'
 import siteMap from '../../framework/config/siteMap.js'
-import BasePage from '../../framework/pages/BasePage.js'
 import LoginPage from '../../framework/pages/LoginPage.js'
 import SignUpPage from '../../framework/pages/SignUpPage.js'
 import UserCreator from '../../framework/fixture/UserCreator.js'
 import SetupTeardown from '../../framework/config/setupTeardown.js'
+import HeaderBlock from '../../framework/elements/HeaderBlock.js'
 
-const basePage = new BasePage()
 const loginPage = new LoginPage()
 const signUpPage = new SignUpPage()
 const createUserDataSet = new UserCreator()
 const setupTeardown = new SetupTeardown()
+const headerBlock = new HeaderBlock()
 let userData
-
-class TestSuite extends SetupTeardown {
-  // eslint-disable-next-line no-useless-constructor
-  constructor () {
-    super()
-  }
-}
 
 test.describe('User CRUD Tests', () => {
   test.beforeAll(async () => {
@@ -52,21 +45,20 @@ test.describe('User CRUD Tests', () => {
    * 16. Verify that 'Logged in as username' is visible
    */
   test('should create user', async ({ page }) => {
-    userData = await userData
     await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.signUpForm)).toContain('New User Signup!')
-    await loginPage.functions.fillSignUpForm(page, userData)
+    await loginPage.fillSignUpForm(page, userData)
     await expect(page).toHaveURL(siteMap.pages.signUpPage)
     await expect(await page.textContent(SignUpPage.selectors.accInfoBlock)).toContain('Enter Account Information')
-    const nameFieldValue = await page.$eval(SignUpPage.selectors.nameRegField, (el) => el.value)
+    const nameFieldValue = await signUpPage.getElementValue(page, SignUpPage.selectors.nameRegField)
     await expect(nameFieldValue).toContain(userData.firstName)
-    const emailFieldValue = await page.$eval(SignUpPage.selectors.emailRegField, (el) => el.value)
+    const emailFieldValue = await signUpPage.getElementValue(page, SignUpPage.selectors.emailRegField)
     await expect(emailFieldValue).toContain(userData.email)
-    await signUpPage.functions.fillAccForm(page, userData)
+    await signUpPage.fillAccForm(page, userData)
     await expect(await page.textContent(SignUpPage.selectors.accCreateHeader)).toContain('Account Created!')
     await page.click(SignUpPage.selectors.continueBtn)
     await expect(page).toHaveURL(siteMap.pages.basePage)
-    await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`)
+    await expect(await page.textContent(headerBlock.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`)
   })
   /**
    * Test Case 2: Login User with correct email and password
@@ -82,13 +74,11 @@ test.describe('User CRUD Tests', () => {
    * 10. Verify that user is navigated to login page
    */
   test('should login/logout user', async ({ page }) => {
-    userData = await userData
-    await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account')
-    await loginPage.functions.fillLoginInForm(page, userData)
+    await loginPage.fillLoginInForm(page, userData)
     await expect(page).toHaveURL(siteMap.pages.basePage)
-    await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`)
-    await page.click(basePage.selectors.logoutBtn)
+    await expect(await page.textContent(headerBlock.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`)
+    await page.click(headerBlock.selectors.logoutBtn)
     await expect(page).toHaveURL(siteMap.pages.loginPage)
   })
   /**
@@ -103,8 +93,6 @@ test.describe('User CRUD Tests', () => {
    * 8. Verify error 'Your email or password is incorrect!' is visible
    */
   test('failed to login with wrong password', async ({ page }) => {
-    userData = await userData
-    await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account')
     await page.fill(LoginPage.selectors.emailLogField, userData.email)
     await page.fill(LoginPage.selectors.passLogField, 'wrongpassword')
@@ -125,8 +113,6 @@ test.describe('User CRUD Tests', () => {
    * 8. Verify error 'Your email or password is incorrect!' is visible
    */
   test('failed to login with wrong email', async ({ page }) => {
-    userData = await userData
-    await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account')
     await page.fill(LoginPage.selectors.emailLogField, 'wrongemail@example.com')
     await page.fill(LoginPage.selectors.passLogField, userData.userPass)
@@ -147,10 +133,8 @@ test.describe('User CRUD Tests', () => {
    * 8. Verify error 'Email Address already exist!' is visible
    */
   test('failed to register with existing email', async ({ page }) => {
-    userData = await userData
-    await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.signUpForm)).toContain('New User Signup!')
-    await loginPage.functions.fillSignUpForm(page, userData)
+    await loginPage.fillSignUpForm(page, userData)
     const text = await page.textContent('p[style="color: red;"]')
     await expect(text).toContain('Email Address already exist!')
     await expect(page).toHaveURL(siteMap.pages.signUpPage)
@@ -169,20 +153,14 @@ test.describe('User CRUD Tests', () => {
    * 10. Verify that 'ACCOUNT DELETED!' is visible  and click 'Continue' button
    */
   test('should login/delete user', async ({ page }) => {
-    userData = await userData
-    await expect(page).toHaveURL(siteMap.pages.loginPage)
     await expect(await page.textContent(LoginPage.selectors.loginForm)).toContain('Login to your account')
-    await page.fill(LoginPage.selectors.emailLogField, userData.email)
-    await page.fill(LoginPage.selectors.passLogField, userData.userPass)
-    await page.click(LoginPage.selectors.loginBtn)
+    await loginPage.fillLoginInForm(page, userData)
     await expect(page).toHaveURL(siteMap.pages.basePage)
-    await expect(await page.textContent(basePage.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`)
-    await page.click(basePage.selectors.deleteAccBtn)
+    await expect(await page.textContent(headerBlock.selectors.loggedBy)).toContain(`Logged in as ${userData.firstName}`)
+    await page.click(headerBlock.selectors.deleteAccBtn)
     await expect(page).toHaveURL(siteMap.pages.accDeletePage)
     await expect(await page.textContent(SignUpPage.selectors.accDeleteHeader)).toContain('Account Deleted!')
     await page.click(SignUpPage.selectors.continueBtn)
     await expect(page).toHaveURL(siteMap.pages.basePage)
   })
 })
-
-export default new TestSuite()

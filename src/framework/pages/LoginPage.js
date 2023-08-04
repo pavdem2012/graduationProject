@@ -10,20 +10,17 @@ export default class loginPage {
     loginBtn: 'button[data-qa="login-button"]'
   }
 
-  functions = {
+  async fillSignUpForm (page, userData) {
+    await page.fill(loginPage.selectors.nameField, userData.firstName)
+    await page.fill(loginPage.selectors.emailField, userData.email)
+    await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
+    await page.click(loginPage.selectors.signUpBtn)
+  }
 
-    async fillSignUpForm (page, userData) {
-      await page.fill(loginPage.selectors.nameField, userData.firstName)
-      await page.fill(loginPage.selectors.emailField, userData.email)
-      await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
-      await page.click(loginPage.selectors.signUpBtn)
-    },
-
-    async fillLoginInForm (page, userData) {
-      await page.fill(loginPage.selectors.emailLogField, userData.email)
-      await page.fill(loginPage.selectors.passLogField, userData.userPass)
-      await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
-      await page.click(loginPage.selectors.loginBtn)
-    }
+  async fillLoginInForm (page, userData) {
+    await page.fill(loginPage.selectors.emailLogField, userData.email)
+    await page.fill(loginPage.selectors.passLogField, userData.userPass)
+    await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
+    await page.click(loginPage.selectors.loginBtn)
   }
 }

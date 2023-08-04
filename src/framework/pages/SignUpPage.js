@@ -26,29 +26,31 @@ export default class signUpPage {
     accDeleteHeader: 'h2[data-qa="account-deleted"]'
   }
 
-  functions = {
+  async fillAccForm (page, resolvedUserData) {
+    await page.click(signUpPage.selectors.titleRad)
+    await page.type(signUpPage.selectors.passRegField, resolvedUserData.userPass)
+    await page.click(signUpPage.selectors.dateRegField)
+    await page.type(signUpPage.selectors.dateRegField, '16')
+    await page.type(signUpPage.selectors.monthRegField, 'March')
+    await page.type(signUpPage.selectors.yearRegField, '1975')
+    await page.click(signUpPage.selectors.newsCheckBox)
+    await page.click(signUpPage.selectors.specCheckBox)
+    await page.type(signUpPage.selectors.firstNameField, resolvedUserData.firstName)
+    await page.type(signUpPage.selectors.lastNameField, resolvedUserData.lastName)
+    await page.type(signUpPage.selectors.companyField, resolvedUserData.companyName)
+    await page.type(signUpPage.selectors.addressField, resolvedUserData.address)
+    await page.type(signUpPage.selectors.address2Field, resolvedUserData.secAddress)
+    await page.selectOption(signUpPage.selectors.countryField, 'Australia')
+    await page.type(signUpPage.selectors.stateField, resolvedUserData.state)
+    await page.type(signUpPage.selectors.cityField, resolvedUserData.city)
+    await page.type(signUpPage.selectors.zipCodeField, resolvedUserData.zipCode)
+    await page.type(signUpPage.selectors.mobileNumField, resolvedUserData.phone)
+    await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
+    await page.click(signUpPage.selectors.createAccBtn)
+  }
 
-    async fillAccForm (page, resolvedUserData) {
-      await page.click(signUpPage.selectors.titleRad)
-      await page.type(signUpPage.selectors.passRegField, resolvedUserData.userPass)
-      await page.click(signUpPage.selectors.dateRegField)
-      await page.type(signUpPage.selectors.dateRegField, '16')
-      await page.type(signUpPage.selectors.monthRegField, 'March')
-      await page.type(signUpPage.selectors.yearRegField, '1975')
-      await page.click(signUpPage.selectors.newsCheckBox)
-      await page.click(signUpPage.selectors.specCheckBox)
-      await page.type(signUpPage.selectors.firstNameField, resolvedUserData.firstName)
-      await page.type(signUpPage.selectors.lastNameField, resolvedUserData.lastName)
-      await page.type(signUpPage.selectors.companyField, resolvedUserData.companyName)
-      await page.type(signUpPage.selectors.addressField, resolvedUserData.address)
-      await page.type(signUpPage.selectors.address2Field, resolvedUserData.secAddress)
-      await page.selectOption(signUpPage.selectors.countryField, 'Australia')
-      await page.type(signUpPage.selectors.stateField, resolvedUserData.state)
-      await page.type(signUpPage.selectors.cityField, resolvedUserData.city)
-      await page.type(signUpPage.selectors.zipCodeField, resolvedUserData.zipCode)
-      await page.type(signUpPage.selectors.mobileNumField, resolvedUserData.phone)
-      await page.waitForLoadState('domcontentloaded', { timeout: 30000 })
-      await page.click(signUpPage.selectors.createAccBtn)
-    }
+  async getElementValue (page, selector) {
+    const element = await page.$(selector)
+    return element ? await page.evaluate((el) => el.value, element) : null
   }
 }
