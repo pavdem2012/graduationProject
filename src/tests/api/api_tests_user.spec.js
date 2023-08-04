@@ -201,7 +201,6 @@ describe('userTests', () => {
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toEqual(200)
-    expect(response.data.message).toBeDefined()
     expect(response.data.message).toContain('Account deleted!')
     expect(ajv.validate(schemas.userChangeResponses, response.data)).toBe(true)
   })

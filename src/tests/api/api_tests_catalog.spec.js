@@ -28,7 +28,6 @@ describe('API products&brands tests', () => {
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toEqual(200)
-    expect(response.data.products).toBeDefined()
     expect(Array.isArray(response.data.products)).toBe(true)
     expect(ajv.validate(schemas.productsList, response.data)).toBe(true)
     response.data.products.forEach((product) => {
