@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test'
 export default class CartPage {
   selectors = {
     cartItem: 'tbody tr',
@@ -8,7 +9,8 @@ export default class CartPage {
     cartProduct: 'td.cart_product',
     removeProductBtn: 'a.cart_quantity_delete>i',
     emptyCartElem: '#empty_cart',
-    emptyCartText: '#empty_cart > p.text-center > b'
+    emptyCartText: '#empty_cart > p.text-center > b',
+    procCheckoutBtn: 'a.check_out'
   }
 
   async getCartItemInfo (cartItem) {
@@ -33,5 +35,14 @@ export default class CartPage {
   async clickRemoveButtonAndWaitForLoad ({ page }) {
     await page.click(this.selectors.removeProductBtn)
     await page.waitForLoadState('networkidle')
+  }
+
+  async verifyProductsInCart ({ page, addedProductsInfo }) {
+    const cartProductsInfo = await this.verifyCartProducts({ page })
+    // console.log('addedProductsInfo: ', addedProductsInfo)
+    // console.log('cartProductsInfo: ', cartProductsInfo)
+    for (let i = 0; i < cartProductsInfo.length; i++) {
+      expect(cartProductsInfo[i]).toEqual(addedProductsInfo[i])
+    }
   }
 }
