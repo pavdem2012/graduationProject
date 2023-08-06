@@ -39,8 +39,6 @@ export default class CartPage {
 
   async verifyProductsInCart ({ page, addedProductsInfo }) {
     const cartProductsInfo = await this.verifyCartProducts({ page })
-    // console.log('addedProductsInfo: ', addedProductsInfo)
-    // console.log('cartProductsInfo: ', cartProductsInfo)
     for (let i = 0; i < cartProductsInfo.length; i++) {
       expect(cartProductsInfo[i]).toEqual(addedProductsInfo[i])
     }

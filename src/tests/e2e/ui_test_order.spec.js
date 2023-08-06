@@ -8,6 +8,7 @@ import LoginPage from '../../framework/pages/LoginPage.js'
 import CheckoutPage from '../../framework/pages/CheckoutPage.js'
 import PaymentPage from '../../framework/pages/PaymentPage.js'
 import UserCRUDHooks from '../../framework/actions/UserCRUDHooks.js'
+import signUpPage from '../../framework/pages/SignUpPage.js'
 
 const setupTeardown = new SetupTeardown()
 const productsPage = new ProductsPage()
@@ -71,7 +72,7 @@ test.describe('Order Tests', () => {
       page.click(checkoutPage.selectors.placeOrderBtn)
     ])
     await expect(download[0].suggestedFilename()).toBe('invoice.txt')
-    await page.click('a.btn-primary')
+    await page.click(signUpPage.selectors.continueBtn)
   })
   /**
      * Test Case 20: Search Products and Verify Cart After Login

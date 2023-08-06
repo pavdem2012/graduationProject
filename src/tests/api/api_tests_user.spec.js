@@ -162,7 +162,6 @@ describe('userTests', () => {
    */
   test('GET user account detail by email', async () => {
     response = await getUser({ data: email })
-    console.log(response.data)
     expect(response.status).toEqual(200)
     expect(response.statusText).toBe('OK')
     expect(response.data.responseCode).toBe(200)
