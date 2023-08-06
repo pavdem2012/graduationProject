@@ -54,7 +54,6 @@ describe('userTests', () => {
     expect(response.data.responseCode).toEqual(201)
     expect(response.data.message).toContain('User created!')
     expect(ajv.validate(schemas.userChangeResponses, response.data)).toBe(true)
-    formData = new URLSearchParams()
   })
   /**
    * API 7: POST To Verify Login with valid details

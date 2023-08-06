@@ -7,6 +7,7 @@ import CartPage from '../../framework/pages/СartPage.js'
 import LoginPage from '../../framework/pages/LoginPage.js'
 import CheckoutPage from '../../framework/pages/CheckoutPage.js'
 import PaymentPage from '../../framework/pages/PaymentPage.js'
+import UserCRUDHooks from '../../framework/actions/UserCRUDHooks.js'
 
 const setupTeardown = new SetupTeardown()
 const productsPage = new ProductsPage()
@@ -16,18 +17,17 @@ const cartPage = new CartPage()
 const loginPage = new LoginPage()
 const checkoutPage = new CheckoutPage()
 const paymentPage = new PaymentPage()
+const userCRUDHooks = new UserCRUDHooks()
 
-const userData = {
-  firstName: 'Павел Деменчук',
-  email: 'pavdem2012@gmail.com',
-  userPass: '123456'
-}
+let userData
 
 test.describe('Order Tests', () => {
   test.beforeEach(async ({ page }) => {
+    userData = await userCRUDHooks.userSetHook(userData)
     await setupTeardown.setupNavTests({ page })
   })
   test.afterEach(async ({ page }) => {
+    userData = await userCRUDHooks.userDeleteHook(userData)
     await setupTeardown.teardownTest({ page })
   })
   /**
@@ -47,6 +47,8 @@ test.describe('Order Tests', () => {
    * 13. Enter payment details: Name on Card, Card Number, CVC, Expiration date
    * 14. Click 'Pay and Confirm Order' button
    * 15. Verify success message 'Order Placed!' & 'Congratulations! Your order has been confirmed!'
+   * 16. Click 'Download Invoice' button and verify invoice is downloaded successfully.
+   * 17. Click 'Continue' button
    */
   test('Verify Place Order: Login before Checkout', async ({ page }) => {
     await page.click(headerBlock.selectors.signUpBtn)
@@ -64,6 +66,12 @@ test.describe('Order Tests', () => {
     await page.click(paymentPage.selectors.confirmOrderBtn)
     await expect(page.locator(paymentPage.selectors.orderPlHeader)).toContainText('Order Placed!')
     await expect(page.locator(paymentPage.selectors.orderConText)).toContainText('Congratulations! Your order has been confirmed!')
+    const download = await Promise.all([
+      page.waitForEvent('download'),
+      page.click(checkoutPage.selectors.placeOrderBtn)
+    ])
+    await expect(download[0].suggestedFilename()).toBe('invoice.txt')
+    await page.click('a.btn-primary')
   })
   /**
      * Test Case 20: Search Products and Verify Cart After Login
@@ -87,7 +95,6 @@ test.describe('Order Tests', () => {
     await page.click(productsPage.selectors.searchBtn)
     await productsPage.verifySearchedProductsVisible(page)
     expect((await (await page.$(productsList.selectors.miniCartProductName)).innerText()).trim()).toEqual('Winter Top')
-    // const addedProductsInfo = await productsPage.addProductToCartAndGetInfo(page, 0)
     const addedProductsInfo = []
     const product = await productsList.clickAddToCart({ page }, 0)
     const productInfo = await productsList.getProductInfo(product)
